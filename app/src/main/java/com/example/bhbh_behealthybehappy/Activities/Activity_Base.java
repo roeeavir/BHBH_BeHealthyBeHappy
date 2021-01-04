@@ -30,6 +30,7 @@ public class Activity_Base extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (isDoubleBackPressToClose) {
+//            ScreenUtils.hideSystemUI(this);
             // If the back button is pressed twice in the set time window, the activity will close.
             if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {
                 super.onBackPressed();

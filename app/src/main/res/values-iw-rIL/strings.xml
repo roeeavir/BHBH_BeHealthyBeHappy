@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BHBH - Be Healthy Be Happy</string>
+    <string name="name">שם</string>
+    <string name="age">גיל</string>
+    <string name="weight">משקל (ק\"ג)</string>
+    <string name="height">גובה (ס\"מ)</string>
+    <string name="drink">הוסף משקה</string>
+    <string name="activity">הוסף פעילות</string>
+    <string name="food">הוסף מזון</string>
+    <string name="save">שמור שינויים</string>
+    <string name="back">חזור</string>
+    <string name="title_home">מסך ראשי</string>
+    <string name="title_settings">אפשרויות</string>
+    <string name="hello_none">שלום משתמש יקר</string>
+    <string name="weight_none">לא הוכנס משקל</string>
+    <string name="bmi_none">אין מספיק מידע בשביל לחשב מסת אינדקס</string>
+    <string name="hello">שלום</string>
+    <string name="last_weight">משקל אחרון שהוכנס:</string>
+    <string name="bmi">מסת האינדקס שלך היא:</string>
+    <string name="read">קרא עוד</string>
+</resources>

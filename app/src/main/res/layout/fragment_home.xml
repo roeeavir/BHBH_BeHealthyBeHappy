@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.HomeFragment"
-    android:background="#B56964"
+    android:background="@drawable/home_back"
     >
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
@@ -20,25 +20,45 @@
             android:id="@+id/main_LBL_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/name"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:textColor="@color/black"
+            />
 
 
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/main_BTN_changeDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="#5E5A4D"
             android:textAllCaps="false"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            app:cornerRadius="50dp"
+            />
 
 
+        <TextView
+            android:id="@+id/main_LBL_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            />
         <TextView
             android:id="@+id/main_LBL_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/main_LBL_bmi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:layout_margin="10dp"
+            android:textColor="@color/black"
+            />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -46,57 +66,66 @@
             android:layout_gravity="center_horizontal"
             android:orientation="horizontal">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/main_BTN_addDrink"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:backgroundTint="#2196F3"
                 android:maxWidth="100dp"
                 android:text="@string/drink"
                 android:textAllCaps="false"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                app:cornerRadius="50dp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                app:strokeWidth="2dp"
+                app:strokeColor="@color/drink_blue"
+                android:textColor="@color/drink_blue"
+                />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/main_BTN_addActivity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:backgroundTint="#138F18"
                 android:maxWidth="120dp"
                 android:text="@string/activity"
                 android:textAllCaps="false"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                app:cornerRadius="50dp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                app:strokeWidth="2dp"
+                app:strokeColor="@color/activity_green"
+                android:textColor="@color/activity_green"
+                />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/main_BTN_addFood"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
-                android:backgroundTint="#F81807"
                 android:maxWidth="100dp"
                 android:text="@string/food"
                 android:textAllCaps="false"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                app:cornerRadius="50dp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                app:strokeWidth="2dp"
+                app:strokeColor="@color/food_red"
+                android:textColor="@color/food_red"
+                />
         </LinearLayout>
 
 
-        <FrameLayout
-            android:id="@+id/main_FLY_list"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/home_LST_list"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="24dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_alignTop="@id/search_SRC_searchView"
+            android:layout_alignEnd="@id/search_SRC_searchView"
+            android:padding="10dp"
+            android:layout_margin="40dp"
             android:background="#45454545" />
 
-        <TextView
-            android:id="@+id/main_LBL_bmi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/name"
-            android:textSize="30sp"
-            android:layout_margin="10dp"
-            />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
