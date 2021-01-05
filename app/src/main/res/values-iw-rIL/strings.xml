@@ -19,4 +19,14 @@
     <string name="last_weight">משקל אחרון שהוכנס:</string>
     <string name="bmi">מסת האינדקס שלך היא:</string>
     <string name="read">קרא עוד</string>
+    <string name="add_custom">הוספת מותאם</string>
+    <string name="item_name">שם ה</string>
+    <string name="item_weight_grams">משקל (גרמים)</string>
+    <string name="item_carbs">"פחמימות "</string>
+    <string name="item_notes">"מידע\\הערות "</string>
+    <string name="add">הוסף</string>
+    <string name="item_calories">קלוריות</string>
+    <string name="item_amount_milliliters">"כמות (מיליליטר) "</string>
+    <string name="item_duration">משך הפעילות</string>
+    <string name="item_calories_per_hour">קלוריות שנשרפו (בערך)</string>
 </resources>

@@ -15,7 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BHBHBeHealthyBeHappy"
         android:windowSoftInputMode="adjustResize">
-        <activity android:name=".Activities.CustomeItemActivity"></activity>
+        <activity android:name=".Activities.LoginActivity"></activity>
+        <activity
+            android:name=".Activities.CustomeItemActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.SearchActivity"
             android:theme="@style/AppTheme.NoActionBar" />

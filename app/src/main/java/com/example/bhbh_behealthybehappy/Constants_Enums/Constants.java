@@ -1,4 +1,4 @@
-package com.example.bhbh_behealthybehappy.Utils;
+package com.example.bhbh_behealthybehappy.Constants_Enums;
 
 public class Constants {
     public static final String SP_FILE = "MY_SP"; // File name of shared preference

@@ -3,14 +3,12 @@ package com.example.bhbh_behealthybehappy.Fragments;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,24 +19,29 @@ import com.example.bhbh_behealthybehappy.Activities.SearchActivity;
 import com.example.bhbh_behealthybehappy.Models.HomeViewModel;
 import com.example.bhbh_behealthybehappy.Models.UserInfo;
 import com.example.bhbh_behealthybehappy.R;
+import com.example.bhbh_behealthybehappy.Utils.MySP;
 import com.google.gson.Gson;
 
 import java.util.Calendar;
 
-import static android.content.Context.MODE_PRIVATE;
-import static com.example.bhbh_behealthybehappy.Utils.Constants.DRINK;
-import static com.example.bhbh_behealthybehappy.Utils.Constants.FOOD;
-import static com.example.bhbh_behealthybehappy.Utils.Constants.SPORTS_ACTIVITY;
-import static com.example.bhbh_behealthybehappy.Utils.Constants.SP_FILE;
-import static com.example.bhbh_behealthybehappy.Utils.Constants.USER_INFO;
+import static com.example.bhbh_behealthybehappy.Constants_Enums.Constants.DRINK;
+import static com.example.bhbh_behealthybehappy.Constants_Enums.Constants.FOOD;
+import static com.example.bhbh_behealthybehappy.Constants_Enums.Constants.SPORTS_ACTIVITY;
+import static com.example.bhbh_behealthybehappy.Constants_Enums.Constants.USER_INFO;
 
 public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
     // Variables
     private HomeViewModel homeViewModel;
 
-    private Button main_BTN_changeDate, main_BTN_addDrink, main_BTN_addActivity, main_BTN_addFood;
-    private TextView main_LBL_name, main_LBL_weight, main_LBL_progress, main_LBL_bmi;
+    private Button main_BTN_changeDate;
+    private Button main_BTN_addDrink;
+    private Button main_BTN_addActivity;
+    private Button main_BTN_addFood;
+    private TextView main_LBL_name;
+    private TextView main_LBL_weight;
+    private TextView main_LBL_progress;
+    private TextView main_LBL_bmi;
 
     private UserInfo userInfo;
     private DatePickerDialog datePickerDialog;
@@ -97,10 +100,9 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
     }
 
     private void loadInfo(View root) {
-        SharedPreferences prefs = root.getContext().getSharedPreferences(SP_FILE, MODE_PRIVATE);
         Gson gson = new Gson();
 
-        userInfo = generateData(prefs, gson);
+        userInfo = gson.fromJson(MySP.getInstance().getString(USER_INFO, ""), UserInfo.class);
 
         if (userInfo == null) {
             main_LBL_name.setText(getActivity().getResources().getString(R.string.hello_none));
@@ -168,11 +170,6 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         String date = dayOfMonth + "/" + month + "/" + year;
         updateMain_LBL_date(date);
-    }
-
-    private UserInfo generateData(SharedPreferences prefs, Gson gson) {
-        String jsonFromMemory = prefs.getString(USER_INFO, "");
-        return gson.fromJson(jsonFromMemory, UserInfo.class);
     }
 
 

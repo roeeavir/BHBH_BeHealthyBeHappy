@@ -18,20 +18,22 @@ import com.example.bhbh_behealthybehappy.Models.UserInfo;
 import com.example.bhbh_behealthybehappy.R;
 import com.example.bhbh_behealthybehappy.Utils.CallBack;
 import com.example.bhbh_behealthybehappy.Utils.MyHelper;
+import com.example.bhbh_behealthybehappy.Utils.MySP;
 import com.example.bhbh_behealthybehappy.Utils.ScreenUtils;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 
-import static android.content.Context.MODE_PRIVATE;
-import static com.example.bhbh_behealthybehappy.Utils.Constants.SP_FILE;
-import static com.example.bhbh_behealthybehappy.Utils.Constants.USER_INFO;
+import static com.example.bhbh_behealthybehappy.Constants_Enums.Constants.USER_INFO;
 
 public class SettingsFragment extends Fragment {
 
     // Variables
     private SettingsViewModel settingsViewModel;
 
-    private TextInputLayout settings_EDT_name, settings_EDT_age, settings_EDT_weight, settings_EDT_height;
+    private TextInputLayout settings_EDT_name;
+    TextInputLayout settings_EDT_age;
+    TextInputLayout settings_EDT_weight;
+    TextInputLayout settings_EDT_height;
     private Button info_BTN_save;
 
     private UserInfo userInfo;
@@ -64,10 +66,9 @@ public class SettingsFragment extends Fragment {
     }
 
     private void loadText() {
-        SharedPreferences prefs = getContext().getSharedPreferences(SP_FILE, MODE_PRIVATE);
         Gson gson = new Gson();
 
-        userInfo = generateData(prefs, gson);
+        userInfo = gson.fromJson(MySP.getInstance().getString(USER_INFO, ""), UserInfo.class);
 
         if (userInfo != null) {
             settings_EDT_name.getEditText().setText(userInfo.getUserName());
@@ -89,8 +90,6 @@ public class SettingsFragment extends Fragment {
     }
 
     private void saveInfo() {
-        SharedPreferences prefs = getContext().getSharedPreferences(SP_FILE, MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
         Gson gson = new Gson();
 
         if (checkInfo()) {
@@ -98,28 +97,27 @@ public class SettingsFragment extends Fragment {
                     Integer.parseInt(settings_EDT_age.getEditText().getText().toString()),
                     Integer.parseInt(settings_EDT_weight.getEditText().getText().toString()),
                     Integer.parseInt(settings_EDT_height.getEditText().getText().toString()));
-
-            String json = gson.toJson(userInfo);
-            editor.putString(USER_INFO, json);
-            editor.apply();
+            MySP.getInstance().putString(USER_INFO, gson.toJson(userInfo));
             MyHelper.getInstance().toast("User info has been updated!");
-        } else
-            MyHelper.getInstance().toast("Some Variables seems to be wrong");
-//        userInfo = generateData(prefs, gson);// Loads top10 list from file
-//
-//        if (userInfo == null) // If there is no top 10 list, create one
-//            userInfo = new UserInfo("", 0, 0, 0);
+        }
 
-//        MyHelper.getInstance().toast(top10List.addPlayerRecord(playerRecord)); // Updates top10 list
-
-        // Loads updated top10 list into file
 
     }
 
     private boolean checkInfo() {
-        return Integer.parseInt(settings_EDT_age.getEditText().getText().toString()) > 0 &&
+        if(settings_EDT_age.getEditText().getText().toString().equals("") ||
+                settings_EDT_weight.getEditText().getText().toString().equals("") ||
+                settings_EDT_height.getEditText().getText().toString().equals("")){
+            MyHelper.getInstance().toast("Some Variables seems to be missing");
+            return false;
+        }
+        if (Integer.parseInt(settings_EDT_age.getEditText().getText().toString()) > 0 &&
                 Integer.parseInt(settings_EDT_weight.getEditText().getText().toString()) > 0
-                && Integer.parseInt(settings_EDT_height.getEditText().getText().toString()) > 0;
+                && Integer.parseInt(settings_EDT_height.getEditText().getText().toString()) > 0){
+            return true;
+        }
+        MyHelper.getInstance().toast("Some Variables seems to be wrong");
+        return false;
     }
 
     private UserInfo generateData(SharedPreferences prefs, Gson gson) {

@@ -20,7 +20,7 @@
         >
 
             <TextView
-                android:id="@+id/item_LBL_name"
+                android:id="@+id/listItem_LBL_name"
                 android:layout_width="0dp"
                 android:layout_height="200dp"
                 android:layout_weight="1"
@@ -39,7 +39,7 @@
             >
 
             <TextView
-                android:id="@+id/item_LBL_amount"
+                android:id="@+id/listItem_LBL_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -52,7 +52,7 @@
                 android:textSize="12sp" />
 
             <androidx.appcompat.widget.AppCompatRatingBar
-                android:id="@+id/search_RTB_redHearts"
+                android:id="@+id/listItem_RTB_redHearts"
                 style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -60,26 +60,26 @@
                 android:layout_margin="5dp"
                 android:theme="@style/RatingBarGreenStars"
                 android:rating="3.5"
-                android:layout_below="@id/item_LBL_amount"
+                android:layout_below="@id/listItem_LBL_amount"
                 />
 
             <androidx.appcompat.widget.AppCompatRatingBar
-                android:id="@+id/search_RTB_blackHearts"
+                android:id="@+id/listItem_RTB_blackHearts"
                 style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/search_RTB_redHearts"
+                android:layout_below="@id/listItem_RTB_redHearts"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="5dp"
                 android:theme="@style/RatingBarBlackHearts"
                 android:rating="2" />
 
             <androidx.appcompat.widget.AppCompatRatingBar
-                android:id="@+id/search_RTB_greenStars"
+                android:id="@+id/listItem_RTB_greenStars"
                 style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/search_RTB_blackHearts"
+                android:layout_below="@id/listItem_RTB_blackHearts"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="5dp"
                 android:theme="@style/RatingBarRedHearts"
@@ -97,7 +97,7 @@
             >
 
             <TextView
-                android:id="@+id/item_LBL_info"
+                android:id="@+id/listItem_LBL_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -105,7 +105,6 @@
                 android:ellipsize="end"
                 android:maxLines="5"
                 android:gravity="center"
-                android:text="Content When a pilot crashes and tells of conflict in the outside world, Diana, an Amazonian warrior in training, leaves home to fight a war, discovering her full powers and true destiny. When a pilot crashes and tells of conflict in the outside world, Diana, an Amazonian warrior in training, leaves home to fight a war, discovering her full powers and true destiny. When a pilot crashes and tells of conflict in the outside world, Diana, an Amazonian warrior in training, leaves home to fight a war, discovering her full powers and true destiny. When a pilot crashes and tells of conflict in the outside world, Diana, an Amazonian warrior in training, leaves home to fight a war, discovering her full powers and true destiny."
                 android:textColor="@color/black"
                 android:textSize="12sp" />
 
@@ -114,8 +113,8 @@
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/item_LBL_info"
-                android:layout_alignEnd="@id/item_LBL_info"
+                android:layout_below="@+id/listItem_LBL_info"
+                android:layout_alignEnd="@id/listItem_LBL_info"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
                 android:minWidth="10dp"

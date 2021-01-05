@@ -30,7 +30,7 @@
             android:id="@+id/main_BTN_changeDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="#5E5A4D"
+            android:backgroundTint="@color/grey"
             android:textAllCaps="false"
             android:textSize="20sp"
             app:cornerRadius="50dp"
