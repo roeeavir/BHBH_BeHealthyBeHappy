@@ -10,9 +10,7 @@
     android:fitsSystemWindows="true"
     >
 
-
-
-        <com.google.android.material.textfield.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/item_EDT_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,7 +28,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/item_EDT_weightOrAmount"
+            android:id="@+id/item_EDT_weight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -48,6 +46,26 @@
         </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/item_EDT_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:hint="@string/item_amount_milliliters"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxBackgroundColor="@color/light_grey"
+        android:layout_below="@id/item_EDT_weight"
+        app:boxCornerRadiusTopStart="12dp"
+        android:visibility="gone"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="phone" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/item_EDT_calories"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -55,7 +73,7 @@
         android:hint="@string/item_calories"
         app:boxCornerRadiusTopEnd="12dp"
         app:boxBackgroundColor="@color/light_grey"
-        android:layout_below="@id/item_EDT_weightOrAmount"
+        android:layout_below="@id/item_EDT_amount"
         app:boxCornerRadiusTopStart="12dp">
 
         <com.google.android.material.textfield.TextInputEditText

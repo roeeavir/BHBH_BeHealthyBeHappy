@@ -17,12 +17,14 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.bhbh_behealthybehappy.Activities.SearchActivity;
 import com.example.bhbh_behealthybehappy.Models.HomeViewModel;
+import com.example.bhbh_behealthybehappy.Models.ItemEntry;
 import com.example.bhbh_behealthybehappy.Models.UserInfo;
 import com.example.bhbh_behealthybehappy.R;
 import com.example.bhbh_behealthybehappy.Utils.MySP;
 import com.google.gson.Gson;
 
 import java.util.Calendar;
+import java.util.HashMap;
 
 import static com.example.bhbh_behealthybehappy.Constants_Enums.Constants.DRINK;
 import static com.example.bhbh_behealthybehappy.Constants_Enums.Constants.FOOD;
@@ -46,6 +48,8 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
     private UserInfo userInfo;
     private DatePickerDialog datePickerDialog;
 
+    private HashMap<String, ItemEntry> itemEntryHashMap = new HashMap<>();
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
@@ -66,8 +70,14 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
 
         loadInfo(root);
 
+        generateItems();
+
         return root;
 
+    }
+
+    private void generateItems() {
+//        itemEntryHashMap.put()
     }
 
 

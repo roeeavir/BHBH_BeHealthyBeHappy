@@ -52,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:hint="@string/height"
+            android:hint="@string/weight"
             app:boxCornerRadiusTopEnd="12dp"
             app:boxBackgroundColor="@color/green_500"
             app:boxCornerRadiusTopStart="12dp">
@@ -70,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:hint="@string/weight"
+            android:hint="@string/height"
             app:boxCornerRadiusTopEnd="12dp"
             app:boxBackgroundColor="@color/green_500"
             app:boxCornerRadiusTopStart="12dp">

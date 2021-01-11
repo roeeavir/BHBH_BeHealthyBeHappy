@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:fitsSystemWindows="true"
-    tools:context=".Activities.SearchActivity"
     android:background="@color/orange_500"
-    >
-
+    android:fitsSystemWindows="true"
+    tools:context=".Activities.SearchActivity">
 
 
     <SearchView
@@ -16,29 +14,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@id/search_IMB_back"
         android:layout_margin="10dp"
-        android:queryHint="Search "
+        android:layout_toEndOf="@id/search_IMB_back"
         android:contentDescription="@string/title_settings"
         android:iconifiedByDefault="false"
-        />
+        android:queryHint="Search " />
 
     <ImageButton
         android:id="@+id/search_IMB_back"
         android:layout_width="30dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/back_arrow"
+        android:layout_alignBottom="@id/search_SRC_searchView"
         android:layout_alignParentStart="true"
         android:layout_margin="20dp"
-        android:layout_alignBottom="@id/search_SRC_searchView"
-        />
+        android:background="@drawable/back_arrow" />
 
     <RelativeLayout
         android:id="@+id/search_RLT_buttonAndList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/search_SRC_searchView"
-        >
+        android:layout_below="@id/search_SRC_searchView">
 
         <ImageView
             android:id="@+id/search_IMG_background"
@@ -46,44 +41,44 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop" />
 
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/search_LST_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="10dp"
-            android:layout_margin="20dp"
-            android:background="#45454545"
             android:layout_above="@id/search_BTN_customItem"
             android:layout_centerHorizontal="true"
-            />
+            android:layout_margin="20dp"
+            android:background="#45454545"
+            android:padding="10dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/search_BTN_customItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:text="@string/add_custom"
-            android:layout_centerHorizontal="true"
-            app:cornerRadius="100dp"
-            android:paddingEnd="10dp"
-            android:paddingStart="10dp"
             android:layout_alignParentBottom="true"
-            android:layout_margin="10dp"
+            android:layout_centerHorizontal="true"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:text="@string/add_custom"
+            android:textAllCaps="false"
             android:textColor="@color/black"
+            android:textSize="25sp"
             app:backgroundTint="@color/light_grey"
-            />
+            app:cornerRadius="100dp" />
 
-
+        <ImageButton
+            android:id="@+id/search_IBT_addWater"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/search_BTN_customItem"
+            android:layout_margin="10dp"
+            android:layout_toStartOf="@id/search_BTN_customItem"
+            android:background="@drawable/add_water"
+            android:visibility="gone" />
 
 
     </RelativeLayout>
-
-
-
-
-
 
 
 </RelativeLayout>

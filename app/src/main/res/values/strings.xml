@@ -29,4 +29,8 @@
     <string name="add">Add</string>
     <string name="item_duration">Duration</string>
     <string name="item_calories_per_hour">Calories Burned (roughly)</string>
+
+    <string name="sign_in_cancelled" translatable="false">Sign In Cancelled</string>
+    <string name="no_internet_connection" translatable="false">No internet connection</string>
+    <string name="unknown_error" translatable="false">unknown error</string>
 </resources>
