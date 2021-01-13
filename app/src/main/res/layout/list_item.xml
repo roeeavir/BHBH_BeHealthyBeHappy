@@ -1,79 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardCornerRadius="20dp"
     android:elevation="6dp"
-    app:cardElevation="6dp"
-    >
+    android:maxHeight="100dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="6dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/green_200"
-        tools:context=".MainActivity"
         android:orientation="horizontal"
-        >
+        tools:context=".MainActivity">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:background="@drawable/item_list_background"
+            >
 
             <TextView
                 android:id="@+id/listItem_LBL_name"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textSize="25sp"
-                android:text="No Item"
-                 />
+                android:textSize="20sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/main_BTN_addItem"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:minWidth="10dp"
+                android:minHeight="10dp"
+                android:text="@string/add_item"
+                android:textColor="@color/orange_700"
+                android:textSize="12sp" />
+        </RelativeLayout>
 
 
         <RelativeLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:gravity="center"
-            >
+            android:layout_weight="1"
+            android:background="@drawable/item_list_background">
 
             <TextView
-                android:id="@+id/listItem_LBL_weight"
+                android:id="@+id/listItem_LBL_foodWeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="12dp"
-                android:ellipsize="end"
-                android:maxLines="5"
                 android:layout_centerHorizontal="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="10dp"
+                android:ellipsize="end"
+                android:maxLines="4"
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:visibility="gone" />
 
             <TextView
-                android:id="@+id/listItem_LBL_amount"
+                android:id="@+id/listItem_LBL_drinkAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="12dp"
-                android:ellipsize="end"
-                android:maxLines="5"
+                android:layout_below="@id/listItem_LBL_foodWeight"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@id/listItem_LBL_weight"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="10dp"
+                android:ellipsize="end"
+                android:maxLines="4"
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/listItem_LBL_activityTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/listItem_LBL_drinkAmount"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="10dp"
+                android:ellipsize="end"
+                android:maxLines="4"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:visibility="gone" />
 
             <androidx.appcompat.widget.AppCompatRatingBar
                 android:id="@+id/listItem_RTB_redHearts"
                 style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/listItem_LBL_activityTime"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="5dp"
-                android:theme="@style/RatingBarGreenStars"
                 android:rating="0"
-                android:layout_below="@id/listItem_LBL_amount"
-                />
+                android:theme="@style/RatingBarRedHearts"
+                android:visibility="gone" />
 
             <androidx.appcompat.widget.AppCompatRatingBar
                 android:id="@+id/listItem_RTB_blackHearts"
@@ -83,8 +118,9 @@
                 android:layout_below="@id/listItem_RTB_redHearts"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="5dp"
+                android:rating="0"
                 android:theme="@style/RatingBarBlackHearts"
-                android:rating="0" />
+                android:visibility="gone" />
 
             <androidx.appcompat.widget.AppCompatRatingBar
                 android:id="@+id/listItem_RTB_greenStars"
@@ -94,29 +130,31 @@
                 android:layout_below="@id/listItem_RTB_blackHearts"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="5dp"
-                android:theme="@style/RatingBarRedHearts"
-                android:rating="0" />
+                android:rating="0"
+                android:theme="@style/RatingBarGreenStars"
+                android:visibility="gone" />
 
         </RelativeLayout>
 
 
-
         <RelativeLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:layout_gravity="fill"
-            >
+            android:layout_weight="1"
+            android:background="@drawable/item_list_background">
 
             <TextView
                 android:id="@+id/listItem_LBL_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="4dp"
-                android:layout_marginEnd="12dp"
+                android:layout_marginEnd="10dp"
                 android:ellipsize="end"
-                android:maxLines="5"
                 android:gravity="center"
+                android:maxLines="3"
+
                 android:textColor="@color/black"
                 android:textSize="12sp" />
 

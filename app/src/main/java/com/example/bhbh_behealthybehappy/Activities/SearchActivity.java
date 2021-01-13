@@ -15,6 +15,7 @@ public class SearchActivity extends Activity_Base {
     SearchViewController searchViewController;
 
     public static final String SEARCH_ITEM = "SEARCH_ITEM";
+    public static final String USER_DATE = "USER_DATE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,15 +26,19 @@ public class SearchActivity extends Activity_Base {
         searchViewController = new SearchViewController(this);
 
         setTheme();
+
+        searchViewController.setDate(getIntent().getStringExtra(USER_DATE));
+
+
     }
+
 
     private void setTheme() {
         String item = getIntent().getStringExtra(SEARCH_ITEM);
-        if (item.equals(DRINK)){
+        if (item.equals(DRINK)) {
             searchViewController.updateTheme(R.drawable.drink_back, Enums.ITEM_THEME.DRINK);
             searchViewController.setAddWaterButtonToVisible();
-        }
-        else if (item.equals(SPORTS_ACTIVITY))
+        } else if (item.equals(SPORTS_ACTIVITY))
             searchViewController.updateTheme(R.drawable.activity_back, Enums.ITEM_THEME.ACTIVITY);
         else
             searchViewController.updateTheme(R.drawable.food_back, Enums.ITEM_THEME.FOOD);

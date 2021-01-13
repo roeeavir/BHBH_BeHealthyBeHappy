@@ -87,4 +87,5 @@ public class MyHelper {
     public void toast(String message) {
         Toast.makeText(appContext, message, Toast.LENGTH_SHORT).show();
     }
+
 }

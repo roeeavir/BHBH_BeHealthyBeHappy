@@ -17,10 +17,12 @@ public class ItemEntry {
     private int carbs = 0;
     private double score = 0.0;
 
-
+    // Empty constructor
     public ItemEntry() {
     }
 
+
+    // Setters and Getters
     public String getName() {
         return name;
     }
@@ -127,12 +129,17 @@ public class ItemEntry {
 
     public ItemEntry updateScore() {
         if (itemType == Enums.ITEM_THEME.ACTIVITY)
-            this.score = (double) getTime() / (caloriesPerHour * 60);
-        else if (itemType == Enums.ITEM_THEME.DRINK) {
-            this.score = (double) getAmount() * getCalories() / 100;
-        } else
-            this.score = (double) getWeight() * getCalories() / 100;
+            this.score = (float) getTime() * caloriesPerHour / (50 * 60); // 50 calories burned equals 1 star
+//        else if (itemType == Enums.ITEM_THEME.DRINK) {
+//            this.score = (double) getCalories() / 100;
+//        }
+        else
+            this.score = (double) getCalories() / 100; // 100 calories equals 1 heart
 
+        if (this.score < 0.25)// Adjusting points
+            this.score = 0;
+        else
+            this.score -= 0.25;
         return this;
     }
 

@@ -8,11 +8,7 @@ public class UserInfo {
     private int userWeight = 0;
     private int userHeight = 0;
 
-    public UserInfo(String userName, int userAge, int userWeight, int userHeight) {
-        this.userName = userName;
-        this.userAge = userAge;
-        this.userWeight = userWeight;
-        this.userHeight = userHeight;
+    public UserInfo() {
     }
 
     public String getUserName() {
@@ -31,19 +27,23 @@ public class UserInfo {
         return userHeight;
     }
 
-    public void setUserName(String userName) {
+    public UserInfo setUserName(String userName) {
         this.userName = userName;
+        return this;
     }
 
-    public void setUserAge(int userAge) {
+    public UserInfo setUserAge(int userAge) {
         this.userAge = userAge;
+        return this;
     }
 
-    public void setUserWeight(int userWeight) {
+    public UserInfo setUserWeight(int userWeight) {
         this.userWeight = userWeight;
+        return this;
     }
 
-    public void setUserHeight(int userHeight) {
+    public UserInfo setUserHeight(int userHeight) {
         this.userHeight = userHeight;
+        return this;
     }
 }

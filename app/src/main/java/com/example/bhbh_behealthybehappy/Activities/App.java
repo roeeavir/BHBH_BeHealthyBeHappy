@@ -3,6 +3,7 @@ package com.example.bhbh_behealthybehappy.Activities;
 
 import android.app.Application;
 
+import com.example.bhbh_behealthybehappy.Utils.FirebaseHelper;
 import com.example.bhbh_behealthybehappy.Utils.MyHelper;
 import com.example.bhbh_behealthybehappy.Utils.MySP;
 
@@ -14,7 +15,8 @@ public class App extends Application {
         super.onCreate();
 
         MyHelper.init(this);
-        MySP.init(this);
+//        MySP.init(this);
+        FirebaseHelper.init(this);
 
     }
 }

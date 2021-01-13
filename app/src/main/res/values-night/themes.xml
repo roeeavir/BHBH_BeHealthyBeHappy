@@ -37,6 +37,12 @@
         <item name="colorControlActivated">@color/black</item>
     </style>
 
+    <style name="myRatingBar" parent="@style/Widget.AppCompat.RatingBar.Small">
+        <item name="android:progressDrawable">@drawable/ratingbar_heart</item>
+        <item name="android:indeterminateDrawable">@drawable/ratingbar_heart</item>
+    </style>
+
+
     <style name="GreenTheme" parent="FirebaseUI">
         <!-- Required for sign-in flow styling -->
         <item name="colorPrimary">@color/material_green_500</item>
@@ -48,4 +54,5 @@
         <item name="colorControlHighlight">@color/material_green_a200</item>
         <item name="android:windowBackground">@color/material_green_50</item>
     </style>
+
 </resources>

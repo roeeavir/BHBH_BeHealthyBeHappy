@@ -2,11 +2,13 @@ package com.example.bhbh_behealthybehappy.Controllers;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.ImageButton;
 
 import com.example.bhbh_behealthybehappy.Activities.CustomeItemActivity;
 import com.example.bhbh_behealthybehappy.Models.ItemEntry;
 import com.example.bhbh_behealthybehappy.R;
 import com.example.bhbh_behealthybehappy.Constants_Enums.Enums;
+import com.example.bhbh_behealthybehappy.Utils.FirebaseHelper;
 import com.example.bhbh_behealthybehappy.Utils.MyHelper;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
@@ -30,9 +32,7 @@ public class CustomItemViewController {
     private TextInputLayout item_EDT_notes;
     private TextInputLayout item_EDT_time;
     private TextInputLayout item_EDT_caloriesPerHour;
-
-    private ItemEntry itemEntry;
-
+    private ImageButton item_IMB_back;
 
     public CustomItemViewController(Context context) {
         this.context = context;
@@ -52,6 +52,7 @@ public class CustomItemViewController {
         item_EDT_time = ((CustomeItemActivity) context).findViewById(R.id.item_EDT_time);
         item_EDT_caloriesPerHour = ((CustomeItemActivity) context).findViewById(R.id.item_EDT_caloriesPerHour);
         item_BTN_save = ((CustomeItemActivity) context).findViewById(R.id.item_BTN_save);
+        item_IMB_back = ((CustomeItemActivity) context).findViewById(R.id.item_IMB_back);
     }
 
     public void updateTheme(Enums.ITEM_THEME th) {
@@ -65,6 +66,7 @@ public class CustomItemViewController {
             item_EDT_caloriesPerHour.setVisibility(View.VISIBLE);
         } else if (theme == Enums.ITEM_THEME.DRINK) {
             item_EDT_amount.setVisibility(View.VISIBLE);
+            item_EDT_weight.setVisibility(View.GONE);
         }
 
         item_EDT_name.setHint(item_EDT_name.getHint() + " " + theme.toString());
@@ -76,8 +78,14 @@ public class CustomItemViewController {
         item_BTN_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveInfo();
-                ((CustomeItemActivity) context).finish();
+                saveInfo();// Adds item into firebase realtime database
+            }
+        });
+
+        item_IMB_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((CustomeItemActivity) context).finish();// Quits activity
             }
         });
     }
@@ -87,27 +95,26 @@ public class CustomItemViewController {
             String name;
             name = item_EDT_name.getEditText().getText().toString().substring(0, 1).toUpperCase()
                     + item_EDT_name.getEditText().getText().toString().substring(1);
-            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-            DatabaseReference myRef = firebaseDatabase.getReference("Items");
+            DatabaseReference myRef = FirebaseHelper.getInstance().getDatabaseReference("Items");
 //            myRef.setValue(null);
             score = setScore();
             if (theme == Enums.ITEM_THEME.DRINK)
-                myRef.child(name).setValue(new ItemEntry().setName(name).setItemType(theme).
+                myRef.child(theme.toString()).child(name).setValue(new ItemEntry().setName(name).setItemType(theme).
                         setAmount(Integer.parseInt(item_EDT_amount.getEditText().getText().toString()))
                         .setCarbs(Integer.parseInt(item_EDT_carbs.getEditText().getText().toString()))
-                        .setScoreType(score).setNotes(item_EDT_notes.getEditText().getText().toString())
-                        .updateScore()
-                );
-            else if (theme == Enums.ITEM_THEME.ACTIVITY)
-                myRef.child(name).setValue(new ItemEntry().setName(name).setItemType(theme).
-                        setTime(Integer.parseInt(item_EDT_time.getEditText().getText().toString()))
-                        .setCaloriesPerHour(Integer.parseInt(item_EDT_caloriesPerHour.getEditText().getText().toString()))
                         .setScoreType(score).setNotes(item_EDT_notes.getEditText().getText().toString())
                         .setCalories(Integer.parseInt(item_EDT_calories.getEditText().getText().toString()))
                         .updateScore()
                 );
+            else if (theme == Enums.ITEM_THEME.ACTIVITY)
+                myRef.child(theme.toString()).child(name).setValue(new ItemEntry().setName(name).setItemType(theme).
+                        setTime(Integer.parseInt(item_EDT_time.getEditText().getText().toString()))
+                        .setCaloriesPerHour(Integer.parseInt(item_EDT_caloriesPerHour.getEditText().getText().toString()))
+                        .setScoreType(score).setNotes(item_EDT_notes.getEditText().getText().toString())
+                        .updateScore()
+                );
             else
-                myRef.child(name).setValue(new ItemEntry().setName(name).setItemType(theme).
+                myRef.child(theme.toString()).child(name).setValue(new ItemEntry().setName(name).setItemType(theme).
                         setWeight(Integer.parseInt(item_EDT_weight.getEditText().getText().toString()))
                         .setCarbs(Integer.parseInt(item_EDT_carbs.getEditText().getText().toString()))
                         .setScoreType(score).setNotes(item_EDT_notes.getEditText().getText().toString())

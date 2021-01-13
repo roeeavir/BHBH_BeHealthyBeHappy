@@ -4,6 +4,7 @@ package com.example.bhbh_behealthybehappy.Fragments;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,13 @@ import com.example.bhbh_behealthybehappy.Models.HomeViewModel;
 import com.example.bhbh_behealthybehappy.Models.ItemEntry;
 import com.example.bhbh_behealthybehappy.Models.UserInfo;
 import com.example.bhbh_behealthybehappy.R;
+import com.example.bhbh_behealthybehappy.Utils.FirebaseHelper;
 import com.example.bhbh_behealthybehappy.Utils.MySP;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.util.Calendar;
@@ -29,6 +36,7 @@ import java.util.HashMap;
 import static com.example.bhbh_behealthybehappy.Constants_Enums.Constants.DRINK;
 import static com.example.bhbh_behealthybehappy.Constants_Enums.Constants.FOOD;
 import static com.example.bhbh_behealthybehappy.Constants_Enums.Constants.SPORTS_ACTIVITY;
+import static com.example.bhbh_behealthybehappy.Constants_Enums.Constants.USERS_REF;
 import static com.example.bhbh_behealthybehappy.Constants_Enums.Constants.USER_INFO;
 
 public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
@@ -110,29 +118,50 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
     }
 
     private void loadInfo(View root) {
-        Gson gson = new Gson();
+//        Gson gson = new Gson();
 
-        userInfo = gson.fromJson(MySP.getInstance().getString(USER_INFO, ""), UserInfo.class);
+        DatabaseReference myRef = FirebaseHelper.getInstance().getDatabaseReference(USERS_REF);
+        FirebaseUser user = FirebaseHelper.getInstance().getUser();
 
-        if (userInfo == null) {
-            main_LBL_name.setText(getActivity().getResources().getString(R.string.hello_none));
-            main_LBL_weight.setText(getActivity().getResources().getString(R.string.weight_none));
-            main_LBL_bmi.setText(getActivity().getResources().getString(R.string.weight_none));
-        } else {
-            String s;
-            double weightD = (double) userInfo.getUserWeight();
-            double heightD = (double) userInfo.getUserHeight();
-            double bmi = weightD / Math.pow(heightD / 100, 2);
-            s = getActivity().getResources().getString(R.string.hello) + " " +
-                    userInfo.getUserName();
-            main_LBL_name.setText(s);
-            s = getActivity().getResources().getString(R.string.last_weight) + " " +
-                    userInfo.getUserWeight() + "kg";
-            main_LBL_weight.setText(s);
-            s = getActivity().getResources().getString(R.string.bmi) + " " +
-                    String.format("%.2f", bmi);
-            main_LBL_bmi.setText(s);
-        }
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+
+                userInfo = dataSnapshot.child(user.getUid()).getValue(UserInfo.class);
+                    if (userInfo == null) {
+                        main_LBL_name.setText(getActivity().getResources().getString(R.string.hello_none));
+                        main_LBL_weight.setText(getActivity().getResources().getString(R.string.weight_none));
+                        main_LBL_bmi.setText(getActivity().getResources().getString(R.string.weight_none));
+                        Log.d("pttt", "User has no name yet");
+                    } else {
+                        String s;
+                        double bmi = (double) userInfo.getUserHeight() / Math.pow((double) userInfo.getUserWeight() / 100, 2);
+                        s = getActivity().getResources().getString(R.string.hello) + " " +
+                                userInfo.getUserName();
+                        main_LBL_name.setText(s);
+                        s = getActivity().getResources().getString(R.string.last_weight) + " " +
+                                userInfo.getUserWeight() + "kg";
+                        main_LBL_weight.setText(s);
+                        s = getActivity().getResources().getString(R.string.bmi) + " " +
+                                String.format("%.2f", bmi);
+                        main_LBL_bmi.setText(s);
+                        Log.d("pttt", "Value is: " + userInfo.getUserName());
+                    }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("pttt", "Failed to read value.", error.toException());
+            }
+        });
+
+//        userInfo = gson.fromJson(MySP.getInstance().getString(USER_INFO, ""), UserInfo.class);
+
+
 
     }
 
@@ -146,6 +175,7 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
             myIntent.putExtra(SearchActivity.SEARCH_ITEM, SPORTS_ACTIVITY);
         else
             myIntent.putExtra(SearchActivity.SEARCH_ITEM, FOOD);
+        myIntent.putExtra(SearchActivity.USER_DATE, main_BTN_changeDate.getText());
         root.getContext().startActivity(myIntent);// Opens winner activity
         setButtons(true);
     }

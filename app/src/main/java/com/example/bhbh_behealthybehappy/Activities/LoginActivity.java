@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.bhbh_behealthybehappy.R;
+import com.example.bhbh_behealthybehappy.Utils.FirebaseHelper;
 import com.example.bhbh_behealthybehappy.Utils.MyHelper;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
@@ -20,21 +21,18 @@ public class LoginActivity extends AppCompatActivity {
 
     private final int RC_SIGN_IN = 1408;
 
-    private FirebaseAuth firebaseAuth;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = firebaseAuth.getCurrentUser();
+        FirebaseUser user = FirebaseHelper.getInstance().getUser();
 
 
-        if (user != null) {
+        if (user != null) { // If user, open the app
             openApp();
         } else {
-            startLoginMethod();
+            startLoginMethod(); // Open built in firebase login
         }
     }
 
@@ -46,9 +44,12 @@ public class LoginActivity extends AppCompatActivity {
                         .createSignInIntentBuilder()
                         .setAvailableProviders(Arrays.asList(
                                 new AuthUI.IdpConfig.EmailBuilder().build(),
-                                new AuthUI.IdpConfig.AnonymousBuilder().build()
+                                new AuthUI.IdpConfig.PhoneBuilder().build()
                         ))
                         .setLogo(R.drawable.ic_healthy_logo)
+                        .setTosAndPrivacyPolicyUrls(
+                                "https://example.com/terms.html",
+                                "https://example.com/privacy.html")
                         .setTheme(R.style.GreenTheme)
                         .build(),
                 RC_SIGN_IN);
@@ -57,12 +58,11 @@ public class LoginActivity extends AppCompatActivity {
     private void openApp() {
         Log.d("pttt", "openApp");
         Intent myIntent = new Intent(this, MainActivity.class);
-        if (firebaseAuth.getCurrentUser().isAnonymous())
-            Log.e("pttt", "Sign-in error: ");
         startActivity(myIntent);
 //        if (firebaseAuth.getCurrentUser().isAnonymous())
-            AuthUI.getInstance().signOut(this);
+//            AuthUI.getInstance().signOut(this);
         finish();
+
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
