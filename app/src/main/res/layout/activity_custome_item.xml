@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     android:background="@drawable/custom_item_back"
     android:fitsSystemWindows="true"
-    android:gravity="center"
-    tools:context=".Activities.CustomeItemActivity">
+    tools:context=".Activities.CustomeItemActivity"
+    >
 
     <ImageButton
         android:id="@+id/item_IMB_back"
@@ -18,10 +18,39 @@
         android:layout_margin="20dp"
         android:background="@drawable/back_arrow" />
 
+    <TextView
+        android:id="@+id/item_LBL_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/item_IMB_back"
+        android:text="@string/item_creation"
+        android:textSize="25sp"
+        android:textColor="@color/white"
+        />
+
+    <TextView
+        android:id="@+id/item_LBL_subHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/item_amount_measure"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/item_LBL_header"
+        android:layout_margin="10dp"
+        android:textSize="18sp"
+        android:textColor="@color/grey"
+        />
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center">
+        android:layout_margin="10dp"
+        android:layout_below="@+id/item_LBL_subHeader"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        >
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/item_EDT_name"
@@ -40,48 +69,12 @@
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/item_EDT_weight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/item_EDT_name"
-            android:layout_margin="10dp"
-            android:hint="@string/item_weight_grams"
-            app:boxBackgroundColor="@color/light_grey"
-            app:boxCornerRadiusTopEnd="12dp"
-            app:boxCornerRadiusTopStart="12dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="phone" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/item_EDT_amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/item_EDT_weight"
-            android:layout_margin="10dp"
-            android:hint="@string/item_amount_milliliters"
-            android:visibility="gone"
-            app:boxBackgroundColor="@color/light_grey"
-            app:boxCornerRadiusTopEnd="12dp"
-            app:boxCornerRadiusTopStart="12dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="phone" />
-        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/item_EDT_calories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/item_EDT_amount"
+            android:layout_below="@id/item_EDT_name"
             android:layout_margin="10dp"
             android:hint="@string/item_calories"
             app:boxBackgroundColor="@color/light_grey"
@@ -95,32 +88,14 @@
                 android:inputType="phone" />
         </com.google.android.material.textfield.TextInputLayout>
 
+
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/item_EDT_time"
+            android:id="@+id/item_EDT_caloriesBurned"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/item_EDT_calories"
             android:layout_margin="10dp"
-            android:hint="@string/item_duration"
-            android:visibility="gone"
-            app:boxBackgroundColor="@color/light_grey"
-            app:boxCornerRadiusTopEnd="12dp"
-            app:boxCornerRadiusTopStart="12dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="phone" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/item_EDT_caloriesPerHour"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/item_EDT_time"
-            android:layout_margin="10dp"
-            android:hint="@string/item_calories_per_hour"
+            android:hint="@string/item_calories_burned"
             android:visibility="gone"
             app:boxBackgroundColor="@color/light_grey"
             app:boxCornerRadiusTopEnd="12dp"
@@ -137,7 +112,7 @@
             android:id="@+id/item_EDT_carbs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/item_EDT_caloriesPerHour"
+            android:layout_below="@id/item_EDT_caloriesBurned"
             android:layout_margin="10dp"
             android:hint="@string/item_carbs"
             app:boxBackgroundColor="@color/light_grey"
@@ -176,7 +151,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/item_EDT_notes"
-            android:layout_margin="10dp"
+            android:layout_margin="20dp"
             android:text="@string/add"
             android:textColor="@color/purple_700"
             app:cornerRadius="50dp"

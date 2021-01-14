@@ -45,14 +45,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         ItemEntry m = items.get(position);
         holder.listItem_LBL_name.setText(m.getName());
         if (m.getItemType() == Enums.ITEM_THEME.ACTIVITY) {
-            holder.listItem_LBL_activityTime.setText(m.getItemType().toString() + " time: " +
-                    m.getTime() + " min");
+            holder.listItem_LBL_activityTime.setText(m.getItemType().toString() + " score by 15 minutes");
             holder.listItem_LBL_activityTime.setVisibility(View.VISIBLE);
             holder.listItem_RTB_greenStars.setRating((float) m.getScore());
             holder.listItem_RTB_greenStars.setVisibility(View.VISIBLE);
-            holder.listItem_LBL_info.setText("Calories per hour:\n " + m.getCaloriesPerHour() + " calories");
+            holder.listItem_LBL_info.setText(m.toString());
         } else {
-            holder.listItem_LBL_info.setText("Carbs:\n " + m.getCarbs() + " grams");
+            holder.listItem_LBL_info.setText(m.toString());
             if (m.getScoreType() == Enums.SCORE.RED_HEART) {
                 holder.listItem_RTB_redHearts.setRating((float) m.getScore());
                 holder.listItem_RTB_redHearts.setVisibility(View.VISIBLE);
@@ -60,27 +59,33 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
                 holder.listItem_RTB_blackHearts.setRating((float) m.getScore());
                 holder.listItem_RTB_blackHearts.setVisibility(View.VISIBLE);
             }
-            if (m.getItemType() == Enums.ITEM_THEME.DRINK) {
-                holder.listItem_LBL_drinkAmount.setText(m.getItemType().toString() + " amount:\n " +
-                        m.getAmount() + " milliliters");
+            if (m.getItemType() == Enums.ITEM_THEME.DRINK){
+                holder.listItem_LBL_drinkAmount.setText(m.getItemType().toString() + " score by 100 milliliter");
                 holder.listItem_LBL_drinkAmount.setVisibility(View.VISIBLE);
-            } else {
-                holder.listItem_LBL_foodWeight.setText(m.getItemType().toString() + " weight:\n " +
-                        m.getWeight() + " grams");
+            }
+            else{
+                holder.listItem_LBL_foodWeight.setText(m.getItemType().toString() + " score by 100 grams");
                 holder.listItem_LBL_foodWeight.setVisibility(View.VISIBLE);
             }
 
 
-        }
-        if (!m.getNotes().isEmpty()) {
-            holder.listItem_LBL_info.setText(holder.listItem_LBL_info.getText() + "\nNotes: " + m.getNotes());
+
         }
 
-        holder.main_BTN_readMore.setOnClickListener(new View.OnClickListener() {
+        holder.listItem_BTN_readMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mClickListener != null) {
                     mClickListener.onReadMoreClicked(v, m);
+                }
+            }
+        });
+
+        holder.listItem_BTN_addItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mClickListener != null) {
+                    mClickListener.onAddItemClicked(v, m);
                 }
             }
         });
@@ -117,12 +122,25 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         notifyDataSetChanged();
     }
 
+    public void clear() {
+        int size = items.size();
+        items.clear();
+        notifyItemRangeRemoved(0, size);
+    }
+
+    public void removeItem(ItemEntry itemEntry){
+        items.remove(itemEntry);
+
+        notifyDataSetChanged();
+    }
+
 
     // parent activity will implement this method to respond to click events
     public interface MyItemClickListener {
         void onItemClick(View view, int position);
 
         void onReadMoreClicked(View view, ItemEntry item);
+
         void onAddItemClicked(View view, ItemEntry item);
     }
 
@@ -134,7 +152,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         TextView listItem_LBL_info;
         TextView listItem_LBL_foodWeight;
         TextView listItem_LBL_activityTime;
-        MaterialButton main_BTN_readMore;
+        MaterialButton listItem_BTN_readMore;
+        MaterialButton listItem_BTN_addItem;
         AppCompatRatingBar listItem_RTB_redHearts;
         AppCompatRatingBar listItem_RTB_blackHearts;
         AppCompatRatingBar listItem_RTB_greenStars;
@@ -147,7 +166,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
             listItem_LBL_drinkAmount = itemView.findViewById(R.id.listItem_LBL_drinkAmount);
             listItem_LBL_info = itemView.findViewById(R.id.listItem_LBL_info);
             listItem_LBL_activityTime = itemView.findViewById(R.id.listItem_LBL_activityTime);
-            main_BTN_readMore = itemView.findViewById(R.id.main_BTN_readMore);
+            listItem_BTN_readMore = itemView.findViewById(R.id.listItem_BTN_readMore);
+            listItem_BTN_addItem = itemView.findViewById(R.id.listItem_BTN_addItem);
             listItem_RTB_redHearts = itemView.findViewById(R.id.listItem_RTB_redHearts);
             listItem_RTB_blackHearts = itemView.findViewById(R.id.listItem_RTB_blackHearts);
             listItem_RTB_greenStars = itemView.findViewById(R.id.listItem_RTB_greenStars);

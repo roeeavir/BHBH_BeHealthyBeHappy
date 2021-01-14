@@ -3,7 +3,7 @@ package com.example.bhbh_behealthybehappy.Utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import static com.example.bhbh_behealthybehappy.Constants_Enums.Constants.SP_FILE;
+//import static com.example.bhbh_behealthybehappy.Constants_Enums.Constants.SP_FILE;
 
 public class MySP {
 
@@ -21,7 +21,7 @@ public class MySP {
     }
 
     private MySP(Context context) {
-        prefs = context.getApplicationContext().getSharedPreferences(SP_FILE , Context.MODE_PRIVATE);
+//        prefs = context.getApplicationContext().getSharedPreferences(SP_FILE , Context.MODE_PRIVATE);
     }
 
     public static void init(Context context) {

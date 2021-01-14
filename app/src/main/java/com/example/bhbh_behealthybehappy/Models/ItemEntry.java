@@ -2,6 +2,8 @@ package com.example.bhbh_behealthybehappy.Models;
 
 import com.example.bhbh_behealthybehappy.Constants_Enums.Enums;
 
+import org.jetbrains.annotations.NotNull;
+
 public class ItemEntry {
 
     //Variables
@@ -9,10 +11,7 @@ public class ItemEntry {
     private Enums.ITEM_THEME itemType = Enums.ITEM_THEME.FOOD;
     private Enums.SCORE scoreType = Enums.SCORE.RED_HEART;
     private String notes = "";
-    private int time = 0;
-    private int caloriesPerHour = 0;
-    private int weight = 0;
-    private int amount = 0;
+    private int caloriesBurned = 0;
     private int calories = 0;
     private int carbs = 0;
     private double score = 0.0;
@@ -53,18 +52,10 @@ public class ItemEntry {
 
     }
 
-    public int getWeight() {
-        return weight;
-    }
-
     public int getCarbs() {
         return carbs;
     }
 
-    public ItemEntry setWeight(int weight) {
-        this.weight = weight;
-        return this;
-    }
 
     public ItemEntry setCarbs(int carbs) {
         this.carbs = carbs;
@@ -72,33 +63,14 @@ public class ItemEntry {
 
     }
 
-    public int getAmount() {
-        return amount;
+
+    public int getCaloriesBurned() {
+        return caloriesBurned;
     }
 
 
-    public ItemEntry setAmount(int amount) {
-        this.amount = amount;
-        return this;
-
-    }
-
-    public int getTime() {
-        return time;
-    }
-
-    public int getCaloriesPerHour() {
-        return caloriesPerHour;
-    }
-
-    public ItemEntry setTime(int time) {
-        this.time = time;
-        return this;
-
-    }
-
-    public ItemEntry setCaloriesPerHour(int caloriesPerHour) {
-        this.caloriesPerHour = caloriesPerHour;
+    public ItemEntry setCaloriesBurned(int caloriesBurned) {
+        this.caloriesBurned = caloriesBurned;
         return this;
 
     }
@@ -129,12 +101,9 @@ public class ItemEntry {
 
     public ItemEntry updateScore() {
         if (itemType == Enums.ITEM_THEME.ACTIVITY)
-            this.score = (float) getTime() * caloriesPerHour / (50 * 60); // 50 calories burned equals 1 star
-//        else if (itemType == Enums.ITEM_THEME.DRINK) {
-//            this.score = (double) getCalories() / 100;
-//        }
-        else
-            this.score = (double) getCalories() / 100; // 100 calories equals 1 heart
+            this.score = (double) caloriesBurned / 30; // 30 calories burned equals 1 star
+        else // Food or drink
+            this.score = (double) calories / 100; // 100 calories equals 1 heart
 
         if (this.score < 0.25)// Adjusting points
             this.score = 0;
@@ -143,5 +112,17 @@ public class ItemEntry {
         return this;
     }
 
+    @NotNull
+    @Override
+    public String toString() {
+        if (itemType == Enums.ITEM_THEME.ACTIVITY) {
+            return "Calories Burned: " + caloriesBurned +
+                    "\nNotes: " + notes;
+        } else
+            return "Carbs: " + carbs + " grams" +
+                    "\nCalories: " + calories +
+                    "\nNotes: " + notes;
 
+
+    }
 }

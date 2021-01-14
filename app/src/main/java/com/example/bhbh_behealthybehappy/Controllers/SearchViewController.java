@@ -33,6 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static com.example.bhbh_behealthybehappy.Constants_Enums.Constants.DATES_REF;
 import static com.example.bhbh_behealthybehappy.Constants_Enums.Constants.ITEMS_REF;
 import static com.example.bhbh_behealthybehappy.Constants_Enums.Constants.USERS_REF;
 
@@ -68,7 +69,6 @@ public class SearchViewController {// Search Activity Controller Class
         initViews();
 
 
-
         generateItems();
 
 
@@ -102,6 +102,7 @@ public class SearchViewController {// Search Activity Controller Class
 
             @Override
             public void onAddItemClicked(View view, ItemEntry item) {
+                view.setEnabled(false);
                 addItem(item);
             }
         });
@@ -114,32 +115,15 @@ public class SearchViewController {// Search Activity Controller Class
         FirebaseUser user = FirebaseHelper.getInstance().getUser();
         DatabaseReference myRef = FirebaseHelper.getInstance().getDatabaseReference(USERS_REF);
 
-//        myRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                // This method is called once with the initial value and again
-//                // whenever data at this location is updated.
-//                dataSnapshot.child(date).child(ITEMS_REF)
-//                Log.d("pttt", "Item " + temp.getName() + " has been added to user list");
-//
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError error) {
-//                // Failed to read value
-//                Log.w("pttt", "Failed to read value.", error.toException());
-//            }
-//        });
-
+        myRef.child(user.getUid()).child(DATES_REF).child(date).child(item.getName()).setValue(item.getName());
 
     }
 
     private void openInfo(ItemEntry item) {// Opens a dialog window containing item notes
         new AlertDialog.Builder(((SearchActivity) context))
                 .setTitle(item.getName())
-                .setMessage(item.getNotes())
-                .setPositiveButton("Close", null)
+                .setMessage(item.toString())
+                .setPositiveButton("OK", null)
                 .show();
     }
 
@@ -160,6 +144,7 @@ public class SearchViewController {// Search Activity Controller Class
                 }
                 if (itemsMap != null)
                     setItemsInList();
+
             }
 
             @Override

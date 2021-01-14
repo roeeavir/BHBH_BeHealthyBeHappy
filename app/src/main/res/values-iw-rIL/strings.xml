@@ -28,7 +28,9 @@
     <string name="item_calories">קלוריות</string>
     <string name="item_amount_milliliters">"כמות (מיליליטר) "</string>
     <string name="item_duration">משך הפעילות</string>
-    <string name="item_calories_per_hour">קלוריות שנשרפו (בערך)</string>
+    <string name="item_calories_burned">קלוריות שנשרפו (בערך)</string>
     <string name="add_item">הוסף מוצר</string>
     <string name="log_out">התנתק וצא</string>
+    <string name="item_creation">עמוד יצירה</string>
+    <string name="item_amount_measure">כמות נמדדת לפי</string>
 </resources>

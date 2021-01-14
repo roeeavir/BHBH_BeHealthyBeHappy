@@ -3,6 +3,7 @@ package com.example.bhbh_behealthybehappy.Controllers;
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.example.bhbh_behealthybehappy.Activities.CustomeItemActivity;
 import com.example.bhbh_behealthybehappy.Models.ItemEntry;
@@ -13,7 +14,6 @@ import com.example.bhbh_behealthybehappy.Utils.MyHelper;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class CustomItemViewController {
 
@@ -25,14 +25,13 @@ public class CustomItemViewController {
 
     private MaterialButton item_BTN_save;
     private TextInputLayout item_EDT_name;
-    private TextInputLayout item_EDT_weight;
-    private TextInputLayout item_EDT_amount;
     private TextInputLayout item_EDT_calories;
     private TextInputLayout item_EDT_carbs;
     private TextInputLayout item_EDT_notes;
-    private TextInputLayout item_EDT_time;
-    private TextInputLayout item_EDT_caloriesPerHour;
+    private TextInputLayout item_EDT_caloriesBurned;
     private ImageButton item_IMB_back;
+    private TextView item_LBL_header;
+    private TextView item_LBL_subHeader;
 
     public CustomItemViewController(Context context) {
         this.context = context;
@@ -44,32 +43,32 @@ public class CustomItemViewController {
 
     private void findViews() {
         item_EDT_name = ((CustomeItemActivity) context).findViewById(R.id.item_EDT_name);
-        item_EDT_weight = ((CustomeItemActivity) context).findViewById(R.id.item_EDT_weight);
-        item_EDT_amount = ((CustomeItemActivity) context).findViewById(R.id.item_EDT_amount);
         item_EDT_calories = ((CustomeItemActivity) context).findViewById(R.id.item_EDT_calories);
         item_EDT_carbs = ((CustomeItemActivity) context).findViewById(R.id.item_EDT_carbs);
         item_EDT_notes = ((CustomeItemActivity) context).findViewById(R.id.item_EDT_notes);
-        item_EDT_time = ((CustomeItemActivity) context).findViewById(R.id.item_EDT_time);
-        item_EDT_caloriesPerHour = ((CustomeItemActivity) context).findViewById(R.id.item_EDT_caloriesPerHour);
+        item_EDT_caloriesBurned = ((CustomeItemActivity) context).findViewById(R.id.item_EDT_caloriesBurned);
         item_BTN_save = ((CustomeItemActivity) context).findViewById(R.id.item_BTN_save);
         item_IMB_back = ((CustomeItemActivity) context).findViewById(R.id.item_IMB_back);
+        item_LBL_header = ((CustomeItemActivity) context).findViewById(R.id.item_LBL_header);
+        item_LBL_subHeader = ((CustomeItemActivity) context).findViewById(R.id.item_LBL_subHeader);
     }
 
     public void updateTheme(Enums.ITEM_THEME th) {
         theme = th;
 
         if (theme == Enums.ITEM_THEME.ACTIVITY) {
-            item_EDT_weight.setVisibility(View.GONE);
             item_EDT_calories.setVisibility(View.GONE);
             item_EDT_carbs.setVisibility(View.GONE);
-            item_EDT_time.setVisibility(View.VISIBLE);
-            item_EDT_caloriesPerHour.setVisibility(View.VISIBLE);
+            item_EDT_caloriesBurned.setVisibility(View.VISIBLE);
+            item_LBL_subHeader.setText(theme.toString() + " duration " + item_LBL_subHeader.getText() + "\n15 minutes");
         } else if (theme == Enums.ITEM_THEME.DRINK) {
-            item_EDT_amount.setVisibility(View.VISIBLE);
-            item_EDT_weight.setVisibility(View.GONE);
-        }
+            item_LBL_subHeader.setText(theme.toString() + " amount " + item_LBL_subHeader.getText() + "\n100 milliliters");
+        } else
+            item_LBL_subHeader.setText(theme.toString() + " weight " + item_LBL_subHeader.getText() + "\n100 grams");
 
+        item_LBL_header.setText(theme.toString() + " " + item_LBL_header.getText());
         item_EDT_name.setHint(item_EDT_name.getHint() + " " + theme.toString());
+        item_EDT_notes.setHint(theme.toString() + " " + item_EDT_notes.getHint());
 
 
     }
@@ -99,23 +98,20 @@ public class CustomItemViewController {
 //            myRef.setValue(null);
             score = setScore();
             if (theme == Enums.ITEM_THEME.DRINK)
-                myRef.child(theme.toString()).child(name).setValue(new ItemEntry().setName(name).setItemType(theme).
-                        setAmount(Integer.parseInt(item_EDT_amount.getEditText().getText().toString()))
+                myRef.child(theme.toString()).child(name).setValue(new ItemEntry().setName(name).setItemType(theme)
                         .setCarbs(Integer.parseInt(item_EDT_carbs.getEditText().getText().toString()))
                         .setScoreType(score).setNotes(item_EDT_notes.getEditText().getText().toString())
                         .setCalories(Integer.parseInt(item_EDT_calories.getEditText().getText().toString()))
                         .updateScore()
                 );
             else if (theme == Enums.ITEM_THEME.ACTIVITY)
-                myRef.child(theme.toString()).child(name).setValue(new ItemEntry().setName(name).setItemType(theme).
-                        setTime(Integer.parseInt(item_EDT_time.getEditText().getText().toString()))
-                        .setCaloriesPerHour(Integer.parseInt(item_EDT_caloriesPerHour.getEditText().getText().toString()))
+                myRef.child(theme.toString()).child(name).setValue(new ItemEntry().setName(name).setItemType(theme)
+                        .setCaloriesBurned(Integer.parseInt(item_EDT_caloriesBurned.getEditText().getText().toString()))
                         .setScoreType(score).setNotes(item_EDT_notes.getEditText().getText().toString())
                         .updateScore()
                 );
             else
-                myRef.child(theme.toString()).child(name).setValue(new ItemEntry().setName(name).setItemType(theme).
-                        setWeight(Integer.parseInt(item_EDT_weight.getEditText().getText().toString()))
+                myRef.child(theme.toString()).child(name).setValue(new ItemEntry().setName(name).setItemType(theme)
                         .setCarbs(Integer.parseInt(item_EDT_carbs.getEditText().getText().toString()))
                         .setScoreType(score).setNotes(item_EDT_notes.getEditText().getText().toString())
                         .setCalories(Integer.parseInt(item_EDT_calories.getEditText().getText().toString()))
@@ -135,64 +131,39 @@ public class CustomItemViewController {
             return false;
         } else if (theme == Enums.ITEM_THEME.ACTIVITY)
             return checkActivityInfo();
-        else if (theme == Enums.ITEM_THEME.DRINK)
-            return checkDrinkInfo();
         else
-            return checkFoodInfo();
+            return checkFoodOrDrinkInfo();
 
 
     }
 
-    private boolean checkDrinkInfo() {
-        int amount, calories, carbs;
-        if (item_EDT_amount.getEditText().getText().toString().equals("") ||
-                item_EDT_calories.getEditText().getText().toString().equals("")) {
-            MyHelper.getInstance().toast("Some Variables seems to be missing");
-            return false;
-        }
-        amount = Integer.parseInt(item_EDT_amount.getEditText().getText().toString());
-        calories = Integer.parseInt(item_EDT_calories.getEditText().getText().toString());
-        if (item_EDT_carbs.getEditText().getText().toString().equals("")) {
-            item_EDT_carbs.getEditText().setText("0");
-            return amount > 0 && calories >= 0;
-        } else {
-            carbs = Integer.parseInt(item_EDT_carbs.getEditText().getText().toString());
-            if (amount < carbs)
-                return false;
-            return amount > 0 && calories >= 0 && carbs >= 0;
-        }
-    }
 
-    private boolean checkFoodInfo() {
-        int weight, calories, carbs;
-        if (item_EDT_weight.getEditText().getText().toString().equals("") ||
-                item_EDT_calories.getEditText().getText().toString().equals("")) {
-            MyHelper.getInstance().toast("Some Variables seems to be missing");
+    private boolean checkFoodOrDrinkInfo() {
+        int calories, carbs;
+        if (item_EDT_calories.getEditText().getText().toString().equals("")) {
+            MyHelper.getInstance().toast("Calories variable need to be filled");
             return false;
         }
-        weight = Integer.parseInt(item_EDT_weight.getEditText().getText().toString());
         calories = Integer.parseInt(item_EDT_calories.getEditText().getText().toString());
         if (item_EDT_carbs.getEditText().getText().toString().equals("")) {
             item_EDT_carbs.getEditText().setText("0");
-            return weight > 0 && calories >= 0;
+            return calories >= 0;
         } else {
             carbs = Integer.parseInt(item_EDT_carbs.getEditText().getText().toString());
-            if (weight < carbs)
+            if (carbs > 100)
                 return false;
-            return weight > 0 && calories >= 0 && carbs >= 0;
+            return calories >= 0 && carbs >= 0;
         }
     }
 
     private boolean checkActivityInfo() {
-        int time, caloriesPerHour;
-        if (item_EDT_time.getEditText().getText().toString().equals("") ||
-                item_EDT_caloriesPerHour.getEditText().getText().toString().equals("")) {
+        int caloriesPerHour;
+        if (item_EDT_caloriesBurned.getEditText().getText().toString().equals("")) {
             MyHelper.getInstance().toast("Some Variables seems to be missing");
             return false;
         }
-        time = Integer.parseInt(item_EDT_time.getEditText().getText().toString());
-        caloriesPerHour = Integer.parseInt(item_EDT_caloriesPerHour.getEditText().getText().toString());
-        return time > 0 && caloriesPerHour > 0;
+        caloriesPerHour = Integer.parseInt(item_EDT_caloriesBurned.getEditText().getText().toString());
+        return caloriesPerHour > 0;
     }
 
     private Enums.SCORE setScore() {
@@ -200,19 +171,10 @@ public class CustomItemViewController {
             return Enums.SCORE.GREEN_STAR;
         else if (!item_EDT_carbs.getEditText().getText().toString().equals("")) {
             int carbs = Integer.parseInt(item_EDT_carbs.getEditText().getText().toString());
-            if (theme == Enums.ITEM_THEME.DRINK) {
-                int amount = Integer.parseInt(item_EDT_amount.getEditText().getText().toString());
-                if (((double) carbs / amount) > 0.1)
-                    return Enums.SCORE.BLACK_HEART;
-                else
-                    return Enums.SCORE.RED_HEART;
-            } else {
-                int weight = Integer.parseInt(item_EDT_weight.getEditText().getText().toString());
-                if (((double) carbs / weight) > 0.1)
-                    return Enums.SCORE.BLACK_HEART;
-                else
-                    return Enums.SCORE.RED_HEART;
-            }
+            if (((double) carbs / 100) > 0.1)
+                return Enums.SCORE.BLACK_HEART;
+            else
+                return Enums.SCORE.RED_HEART;
 
         } else
             return Enums.SCORE.RED_HEART;
