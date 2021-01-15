@@ -70,6 +70,8 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
 
     private ItemAdapter item_adapter;
 
+    private double score = 0;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
@@ -149,8 +151,10 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
                 }
 
                 if (getActivity() != null)
-                    if (itemEntryHashMap != null)
+                    if (itemEntryHashMap != null) {
                         setItemsInList();
+                        setScore();
+                    }
             }
 
             @Override
@@ -159,6 +163,20 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
                 Log.w("pttt", "Failed to read value.", error.toException());
             }
         });
+
+    }
+
+    private void setScore() {
+        String s;
+        score = 0;
+        for (ItemEntry item : items) {
+            if (item.getItemType() != Enums.ITEM_THEME.ACTIVITY)
+                score += item.getScore();
+        }
+
+        s = getActivity().getResources().getString(R.string.progress_score) + " " +
+                String.format("%.1f", score) + " \\ "+ userInfo.getUserDailyScore()  + " red hearts";
+        main_LBL_progress.setText(s);
 
     }
 
@@ -247,6 +265,7 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
                     main_LBL_name.setText(getActivity().getResources().getString(R.string.hello_none));
                     main_LBL_weight.setText(getActivity().getResources().getString(R.string.weight_none));
                     main_LBL_bmi.setText(getActivity().getResources().getString(R.string.weight_none));
+                    main_LBL_progress.setText(getActivity().getResources().getString(R.string.score_none));
                     Log.d("pttt", "User has no name yet");
                 } else {
                     try {
@@ -262,6 +281,9 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
                             s = getActivity().getResources().getString(R.string.bmi) + " " +
                                     String.format("%.2f", bmi);
                             main_LBL_bmi.setText(s);
+                            s = getActivity().getResources().getString(R.string.progress_score) + " " +
+                                    String.format("%.1f", score) + " \\ "+ userInfo.getUserDailyScore()  + " red hearts";
+                            main_LBL_progress.setText(s);
                             Log.d("pttt", "Value is: " + userInfo.getUserName());
                         }
                     } catch (Exception e) {
@@ -330,9 +352,11 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
         String date = dayOfMonth + "-" + month + "-" + year;
         updateMain_LBL_date(date);
 
+        score = 0;
         item_adapter.clear();
         loadUserItems();
         item_adapter.notifyDataSetChanged();
+
     }
 
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -38,27 +39,16 @@
 
 
         <TextView
-            android:id="@+id/main_LBL_weight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textColor="@color/black"
-            />
-        <TextView
             android:id="@+id/main_LBL_progress"
+           android:layout_margin="5dp"
+            android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textColor="@color/black"/>
-
-        <TextView
-            android:id="@+id/main_LBL_bmi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:layout_margin="10dp"
+            android:textSize="18sp"
             android:textColor="@color/black"
+            android:textStyle="bold|italic"
             />
+
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -116,15 +106,28 @@
                 />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/main_LBL_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            />
+
+        <TextView
+            android:id="@+id/main_LBL_bmi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/home_LST_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignTop="@id/search_SRC_searchView"
-            android:layout_alignEnd="@id/search_SRC_searchView"
             android:padding="10dp"
-            android:layout_margin="40dp"
+            android:layout_margin="30dp"
             android:background="#45454545" />
 
     </LinearLayout>

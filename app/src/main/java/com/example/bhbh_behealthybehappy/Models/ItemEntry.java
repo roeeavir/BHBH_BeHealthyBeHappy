@@ -105,10 +105,12 @@ public class ItemEntry {
         else // Food or drink
             this.score = (double) calories / 100; // 100 calories equals 1 heart
 
-        if (this.score < 0.25)// Adjusting points
-            this.score = 0;
+        if (this.score - (int) this.score < 0.25) // Adjusting points
+            this.score = (int) this.score;
+        else if (this.score - (int) this.score < 0.75)
+            this.score = 0.5 + (int) this.score;
         else
-            this.score -= 0.25;
+            this.score = 1 + (int) this.score;
         return this;
     }
 

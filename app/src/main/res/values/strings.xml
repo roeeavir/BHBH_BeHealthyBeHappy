@@ -4,6 +4,8 @@
     <string name="age">Age</string>
     <string name="weight">Weight (kg)</string>
     <string name="height">Height (cm)</string>
+    <string name="target_score">Target Score</string>
+
     <string name="drink">Add Drink</string>
     <string name="activity">Add Activity</string>
     <string name="food">Add Food</string>
@@ -15,9 +17,16 @@
     <string name="hello_none">Hello Dear User!</string>
     <string name="weight_none">No weight was entered</string>
     <string name="bmi_none">Not enough data to provide BMI</string>
+    <string name="score_none">No target score was entered</string>
+
+
     <string name="hello">Hello</string>
     <string name="last_weight">Last Known Weight:</string>
     <string name="bmi">Your BMI is:</string>
+    <string name="progress_score">Your progress is</string>
+
+
+
     <string name="read">Read More</string>
     <string name="add_custom">Add Custom</string>
     <string name="item_name">Name of</string>

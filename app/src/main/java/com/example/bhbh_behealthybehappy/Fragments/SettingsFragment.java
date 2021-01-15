@@ -31,6 +31,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
+import org.jetbrains.annotations.NotNull;
+
 import static com.example.bhbh_behealthybehappy.Constants_Enums.Constants.USERS_REF;
 //import static com.example.bhbh_behealthybehappy.Constants_Enums.Constants.USER_INFO;
 import static com.example.bhbh_behealthybehappy.Constants_Enums.Constants.USER_INFO_REF;
@@ -44,16 +46,11 @@ public class SettingsFragment extends Fragment {
     private TextInputLayout settings_EDT_age;
     private TextInputLayout settings_EDT_weight;
     private TextInputLayout settings_EDT_height;
+    private TextInputLayout settings_EDT_dailyScore;
     private Button info_BTN_save;
     private Button info_BTN_logOut;
 
     private UserInfo userInfo;
-
-    private CallBack callBack;
-
-    public void setCallBack(CallBack callBack) {
-        this.callBack = callBack;
-    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -97,6 +94,7 @@ public class SettingsFragment extends Fragment {
                     settings_EDT_age.getEditText().setText("" + userInfo.getUserAge());
                     settings_EDT_weight.getEditText().setText("" + userInfo.getUserWeight());
                     settings_EDT_height.getEditText().setText("" + userInfo.getUserHeight());
+                    settings_EDT_dailyScore.getEditText().setText("" + userInfo.getUserDailyScore());
                     Log.d("pttt", "Loaded user text");
                 }
             }
@@ -139,7 +137,8 @@ public class SettingsFragment extends Fragment {
             userInfo = new UserInfo().setUserName(settings_EDT_name.getEditText().getText().toString())
                     .setUserAge(Integer.parseInt(settings_EDT_age.getEditText().getText().toString()))
                     .setUserWeight(Integer.parseInt(settings_EDT_weight.getEditText().getText().toString()))
-                    .setUserHeight(Integer.parseInt(settings_EDT_height.getEditText().getText().toString()));
+                    .setUserHeight(Integer.parseInt(settings_EDT_height.getEditText().getText().toString()))
+                    .setUserDailyScore(Integer.parseInt(settings_EDT_dailyScore.getEditText().getText().toString()));
             myRef.child(user.getUid()).child(USER_INFO_REF).setValue(userInfo);
 //            MySP.getInstance().putString(USER_INFO, gson.toJson(userInfo));
             MyHelper.getInstance().toast("User info has been updated!");
@@ -149,19 +148,25 @@ public class SettingsFragment extends Fragment {
     }
 
     private boolean checkInfo() {
-        if (settings_EDT_age.getEditText().getText().toString().equals("") ||
-                settings_EDT_weight.getEditText().getText().toString().equals("") ||
-                settings_EDT_height.getEditText().getText().toString().equals("")) {
-            MyHelper.getInstance().toast("Some Variables seems to be missing");
+        if (settings_EDT_age.getEditText().getText().toString().isEmpty() ||
+                settings_EDT_weight.getEditText().getText().toString().isEmpty() ||
+                settings_EDT_height.getEditText().getText().toString().isEmpty() ||
+                settings_EDT_name.getEditText().getText().toString().isEmpty()) {
+            MyHelper.getInstance().toast("Some Variables seem to be missing");
             return false;
         }
-        if (Integer.parseInt(settings_EDT_age.getEditText().getText().toString()) > 0 &&
-                Integer.parseInt(settings_EDT_weight.getEditText().getText().toString()) > 0
-                && Integer.parseInt(settings_EDT_height.getEditText().getText().toString()) > 0) {
-            return true;
+        try {
+            if (Integer.parseInt(settings_EDT_age.getEditText().getText().toString()) > 0 &&
+                    Integer.parseInt(settings_EDT_weight.getEditText().getText().toString()) > 0
+                    && Integer.parseInt(settings_EDT_height.getEditText().getText().toString()) > 0
+                    && Integer.parseInt(settings_EDT_dailyScore.getEditText().getText().toString()) > 0)
+                return true;
+            MyHelper.getInstance().toast("Some Variables seem to be wrong");
+            return false;
+        } catch (Exception e) {
+            MyHelper.getInstance().toast("Age, weight, height and score should all be numbers");
+            return false;
         }
-        MyHelper.getInstance().toast("Some Variables seems to be wrong");
-        return false;
     }
 
 //    private UserInfo generateData(SharedPreferences prefs, Gson gson) {
@@ -169,11 +174,12 @@ public class SettingsFragment extends Fragment {
 //        return gson.fromJson(jsonFromMemory, UserInfo.class);
 //    }
 
-    private void findViews(View root) {
+    private void findViews(@NotNull View root) {
         settings_EDT_name = root.findViewById(R.id.settings_EDT_name);
         settings_EDT_age = root.findViewById(R.id.settings_EDT_age);
         settings_EDT_weight = root.findViewById(R.id.settings_EDT_weight);
         settings_EDT_height = root.findViewById(R.id.settings_EDT_height);
+        settings_EDT_dailyScore = root.findViewById(R.id.settings_EDT_dailyScore);
         info_BTN_save = root.findViewById(R.id.info_BTN_save);
         info_BTN_logOut = root.findViewById(R.id.info_BTN_logOut);
     }

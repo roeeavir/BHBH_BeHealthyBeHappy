@@ -120,13 +120,13 @@ public class CustomItemViewController {
             MyHelper.getInstance().toast("Item has been added to database!");
         }
 //        else
-//            MyHelper.getInstance().toast("Some Variables seems to have bad inputs");
+//            MyHelper.getInstance().toast("Some Variables seem to have bad inputs");
 
     }
 
 
     private boolean checkInfo() {
-        if (item_EDT_name.getEditText().getText().toString().equals("")) {
+        if (item_EDT_name.getEditText().getText().toString().isEmpty()) {
             MyHelper.getInstance().toast("Item name is missing");
             return false;
         } else if (theme == Enums.ITEM_THEME.ACTIVITY)
@@ -141,29 +141,40 @@ public class CustomItemViewController {
     private boolean checkFoodOrDrinkInfo() {
         int calories, carbs;
         if (item_EDT_calories.getEditText().getText().toString().equals("")) {
-            MyHelper.getInstance().toast("Calories variable need to be filled");
+            MyHelper.getInstance().toast("Calories variable needs to be filled");
             return false;
         }
-        calories = Integer.parseInt(item_EDT_calories.getEditText().getText().toString());
-        if (item_EDT_carbs.getEditText().getText().toString().equals("")) {
-            item_EDT_carbs.getEditText().setText("0");
-            return calories >= 0;
-        } else {
-            carbs = Integer.parseInt(item_EDT_carbs.getEditText().getText().toString());
-            if (carbs > 100)
-                return false;
-            return calories >= 0 && carbs >= 0;
+        try {
+            calories = Integer.parseInt(item_EDT_calories.getEditText().getText().toString());
+            if (item_EDT_carbs.getEditText().getText().toString().equals("")) {
+                item_EDT_carbs.getEditText().setText("0");
+                return calories >= 0;
+            } else {
+                carbs = Integer.parseInt(item_EDT_carbs.getEditText().getText().toString());
+                if (carbs > 100)
+                    return false;
+                return calories >= 0 && carbs >= 0;
+            }
+        }
+        catch (Exception e){
+            MyHelper.getInstance().toast("Calories and carbs (if entered) should all be numbers");
+            return false;
         }
     }
 
     private boolean checkActivityInfo() {
         int caloriesPerHour;
         if (item_EDT_caloriesBurned.getEditText().getText().toString().equals("")) {
-            MyHelper.getInstance().toast("Some Variables seems to be missing");
+            MyHelper.getInstance().toast("Some Variables seem to be missing");
             return false;
         }
-        caloriesPerHour = Integer.parseInt(item_EDT_caloriesBurned.getEditText().getText().toString());
-        return caloriesPerHour > 0;
+        try {
+            caloriesPerHour = Integer.parseInt(item_EDT_caloriesBurned.getEditText().getText().toString());
+            return caloriesPerHour > 0;
+        }catch (Exception e){
+            MyHelper.getInstance().toast("Calories per hour should be a number");
+            return false;
+        }
     }
 
     private Enums.SCORE setScore() {

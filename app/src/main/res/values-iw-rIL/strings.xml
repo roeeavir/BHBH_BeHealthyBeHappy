@@ -33,4 +33,7 @@
     <string name="log_out">התנתק וצא</string>
     <string name="item_creation">עמוד יצירה</string>
     <string name="item_amount_measure">כמות נמדדת לפי</string>
+    <string name="target_score">נקודות יומיות</string>
+    <string name="score_none">לא הוכנס ניקוד יומי רצוי</string>
+    <string name="progress_score">הציון שלך הוא</string>
 </resources>

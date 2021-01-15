@@ -82,6 +82,24 @@
                 android:inputType="numberSigned" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/settings_EDT_dailyScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="@string/target_score"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxBackgroundColor="@color/green_500"
+            app:boxCornerRadiusTopStart="12dp"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberSigned" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/info_BTN_save"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"

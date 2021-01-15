@@ -7,6 +7,7 @@ public class UserInfo {
     private int userAge = 0;
     private int userWeight = 0;
     private int userHeight = 0;
+    private int userDailyScore = 0;
 
     public UserInfo() {
     }
@@ -44,6 +45,15 @@ public class UserInfo {
 
     public UserInfo setUserHeight(int userHeight) {
         this.userHeight = userHeight;
+        return this;
+    }
+
+    public int getUserDailyScore() {
+        return userDailyScore;
+    }
+
+    public UserInfo setUserDailyScore(int userDailyScore) {
+        this.userDailyScore = userDailyScore;
         return this;
     }
 }
