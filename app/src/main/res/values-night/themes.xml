@@ -23,17 +23,17 @@
     </style>
 
     <style name="RatingBarGreenStars" parent="Theme.AppCompat">
-        <item name="colorControlNormal">@color/green_200</item>
+        <item name="colorControlNormal">@color/transparent</item>
         <item name="colorControlActivated">@color/green_700</item>
     </style>
 
     <style name="RatingBarRedHearts" parent="Theme.AppCompat">
-        <item name="colorControlNormal">@color/green_200</item>
-        <item name="colorControlActivated">@color/food_red</item>
+        <item name="colorControlNormal">@color/transparent</item>
+        <item name="colorControlActivated">@color/red_a700</item>
     </style>
 
     <style name="RatingBarBlackHearts" parent="Theme.AppCompat">
-        <item name="colorControlNormal">@color/green_200</item>
+        <item name="colorControlNormal">@color/transparent</item>
         <item name="colorControlActivated">@color/black</item>
     </style>
 

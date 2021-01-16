@@ -36,4 +36,8 @@
     <string name="target_score">נקודות יומיות</string>
     <string name="score_none">לא הוכנס ניקוד יומי רצוי</string>
     <string name="progress_score">הציון שלך הוא</string>
+    <string name="free">המוצר חינמי</string>
+    <string name="remove_item">הסר מוצר</string>
+    <string name="set_quantity">הגדר כמות</string>
+    <string name="quantity">הכמות היא</string>
 </resources>

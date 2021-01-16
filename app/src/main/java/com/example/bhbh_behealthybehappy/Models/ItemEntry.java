@@ -43,13 +43,11 @@ public class ItemEntry {
     public ItemEntry setScoreType(Enums.SCORE scoreType) {
         this.scoreType = scoreType;
         return this;
-
     }
 
     public ItemEntry setNotes(String notes) {
         this.notes = notes;
         return this;
-
     }
 
     public int getCarbs() {
@@ -60,7 +58,6 @@ public class ItemEntry {
     public ItemEntry setCarbs(int carbs) {
         this.carbs = carbs;
         return this;
-
     }
 
 
@@ -72,7 +69,6 @@ public class ItemEntry {
     public ItemEntry setCaloriesBurned(int caloriesBurned) {
         this.caloriesBurned = caloriesBurned;
         return this;
-
     }
 
 
@@ -105,6 +101,9 @@ public class ItemEntry {
         else // Food or drink
             this.score = (double) calories / 100; // 100 calories equals 1 heart
 
+        if (this.score > 5)
+            this.score = 5;
+
         if (this.score - (int) this.score < 0.25) // Adjusting points
             this.score = (int) this.score;
         else if (this.score - (int) this.score < 0.75)
@@ -124,7 +123,5 @@ public class ItemEntry {
             return "Carbs: " + carbs + " grams" +
                     "\nCalories: " + calories +
                     "\nNotes: " + notes;
-
-
     }
 }

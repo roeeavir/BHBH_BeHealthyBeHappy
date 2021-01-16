@@ -33,7 +33,7 @@
                 android:textSize="20sp" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/listUserItem_BTN_addItem"
+                android:id="@+id/listUserItem_BTN_setQuantity"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
@@ -43,8 +43,8 @@
                 android:insetBottom="0dp"
                 android:minWidth="10dp"
                 android:minHeight="10dp"
-                android:text="@string/add_item"
-                android:textColor="@color/orange_700"
+                android:text="@string/set_quantity"
+                android:textColor="@color/red_a700"
                 android:textSize="12sp" />
         </RelativeLayout>
 
@@ -58,7 +58,7 @@
             android:background="@drawable/item_list_background_green">
 
             <TextView
-                android:id="@+id/listUserItem_LBL_foodWeight"
+                android:id="@+id/listUserItem_LBL_quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -69,44 +69,16 @@
                 android:maxLines="4"
                 android:textColor="@color/black"
                 android:textSize="12sp"
-                android:visibility="gone" />
+                />
 
-            <TextView
-                android:id="@+id/listUserItem_LBL_drinkAmount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/listUserItem_LBL_foodWeight"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="10dp"
-                android:ellipsize="end"
-                android:maxLines="4"
-                android:textColor="@color/black"
-                android:textSize="12sp"
-                android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/listUserItem_LBL_activityTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/listUserItem_LBL_drinkAmount"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="10dp"
-                android:ellipsize="end"
-                android:maxLines="4"
-                android:textColor="@color/black"
-                android:textSize="12sp"
-                android:visibility="gone" />
 
             <androidx.appcompat.widget.AppCompatRatingBar
                 android:id="@+id/listUserItem_RTB_redHearts"
                 style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/listUserItem_LBL_activityTime"
+                android:layout_below="@id/listUserItem_LBL_quantity"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="5dp"
                 android:rating="0"
@@ -167,7 +139,7 @@
             android:background="@drawable/item_list_background_green">
 
             <TextView
-                android:id="@+id/listUserItem_LBL_info"
+                android:id="@+id/listUserItem_LBL_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -181,17 +153,16 @@
                 android:textSize="12sp" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/listUserItem_BTN_readMore"
+                android:id="@+id/listUserItem_BTN_removeItem"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:layout_below="@+id/listUserItem_LBL_info"
-                android:layout_alignEnd="@id/listUserItem_LBL_info"
+                android:layout_below="@+id/listUserItem_LBL_time"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
                 android:minWidth="10dp"
                 android:minHeight="10dp"
-                android:text="@string/read"
+                android:text="@string/remove_item"
                 android:textColor="@color/orange_500"
                 android:textSize="12sp" />
 

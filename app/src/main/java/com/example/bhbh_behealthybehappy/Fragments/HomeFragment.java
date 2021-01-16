@@ -1,15 +1,23 @@
 package com.example.bhbh_behealthybehappy.Fragments;
 
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.InputType;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,10 +31,11 @@ import com.example.bhbh_behealthybehappy.Constants_Enums.Enums;
 import com.example.bhbh_behealthybehappy.Models.HomeViewModel;
 import com.example.bhbh_behealthybehappy.Models.ItemEntry;
 import com.example.bhbh_behealthybehappy.Models.UserInfo;
+import com.example.bhbh_behealthybehappy.Models.UserItemEntry;
 import com.example.bhbh_behealthybehappy.R;
 import com.example.bhbh_behealthybehappy.Utils.FirebaseHelper;
-import com.example.bhbh_behealthybehappy.Utils.ItemAdapter;
 import com.example.bhbh_behealthybehappy.Utils.MyHelper;
+import com.example.bhbh_behealthybehappy.Utils.UserItemAdapter;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,6 +45,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Map;
 
 import static com.example.bhbh_behealthybehappy.Constants_Enums.Constants.DATES_REF;
 import static com.example.bhbh_behealthybehappy.Constants_Enums.Constants.DRINK;
@@ -64,18 +74,20 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
     private UserInfo userInfo;
     private DatePickerDialog datePickerDialog;
 
-    private HashMap<String, ItemEntry> itemEntryHashMap = new HashMap<>();
-    private ArrayList<String> namesOfItems;
-    private ArrayList<ItemEntry> items;
+    private HashMap<String, UserItemEntry> userItemEntryHashMap = new HashMap<>();
+    private HashMap<String, Integer> namesOfItems = new HashMap<>();
+    private ArrayList<UserItemEntry> userItems;
 
-    private ItemAdapter item_adapter;
+    private UserItemAdapter item_adapter;
 
-    private double score = 0;
+    private double red_score = 0;
+    private double black_score = 0;
+    private double green_score = 0;
+    private int water_glasses = 0;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 //        final TextView textView = root.findViewById(R.id.text_home);
 //        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -108,15 +120,15 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                namesOfItems = new ArrayList<>();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    String temp = postSnapshot.getValue(String.class);
+                    String temp = postSnapshot.getKey();
+                    int temp_quantity = postSnapshot.getValue(Integer.class);;
                     if (temp != null)
-                        namesOfItems.add(temp);
+                        namesOfItems.put(temp, temp_quantity);
                     Log.d("pttt", "Name of item is: " + temp);
                 }
                 if (namesOfItems != null)
-                    LoadItems();
+                    loadItems();
 
             }
 
@@ -127,10 +139,9 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
             }
         });
 
-//        itemEntryHashMap.put()
     }
 
-    private void LoadItems() {
+    private void loadItems() {
         DatabaseReference myUserRef = FirebaseHelper.getInstance().getDatabaseReference(ITEMS_REF);
 
         myUserRef.addValueEventListener(new ValueEventListener() {
@@ -138,20 +149,23 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                itemEntryHashMap.clear();
-                for (String s : namesOfItems) {
+                userItemEntryHashMap.clear();
+                for (Map.Entry<String, Integer> entry : namesOfItems.entrySet()) {
                     for (Enums.ITEM_THEME type : Enums.ITEM_THEME.values())
                         for (DataSnapshot postSnapshot : dataSnapshot.
                                 child(type.toString()).getChildren()) {
                             ItemEntry temp = postSnapshot.getValue(ItemEntry.class);
-                            if (temp != null && s.equals(temp.getName()))
-                                itemEntryHashMap.put(temp.getName(), temp);
-                            Log.d("pttt", "Name of item is: " + temp);
+                            if (temp != null && entry.getKey().equals(temp.getName())) {
+                                UserItemEntry userItemEntry = new UserItemEntry().setItemEntry(temp).setQuantity(entry.getValue());
+                                userItemEntry.updateScore_by_quantity();
+                                userItemEntryHashMap.put(temp.getName(), userItemEntry);
+                                Log.d("pttt", "Name of item is: " + temp.getName());
+                            }
                         }
                 }
 
                 if (getActivity() != null)
-                    if (itemEntryHashMap != null) {
+                    if (userItemEntryHashMap != null) {
                         setItemsInList();
                         setScore();
                     }
@@ -167,56 +181,100 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
     }
 
     private void setScore() {
-        String s;
-        score = 0;
-        for (ItemEntry item : items) {
-            if (item.getItemType() != Enums.ITEM_THEME.ACTIVITY)
-                score += item.getScore();
+        resetScores();
+        for (UserItemEntry item : userItems) {
+            if (item.getItemEntry().getItemType() == Enums.ITEM_THEME.FOOD || item.getItemEntry().getItemType() == Enums.ITEM_THEME.DRINK) {
+                if (item.getItemEntry().getScoreType() == Enums.SCORE.BLACK_HEART)
+                    black_score += item.getItemEntry().getScore();
+                red_score += item.getItemEntry().getScore();
+            } else if (item.getItemEntry().getItemType() == Enums.ITEM_THEME.ACTIVITY)
+                green_score += item.getItemEntry().getScore();
+            else
+                water_glasses += 1;
         }
 
-        s = getActivity().getResources().getString(R.string.progress_score) + " " +
-                String.format("%.1f", score) + " \\ "+ userInfo.getUserDailyScore()  + " red hearts";
-        main_LBL_progress.setText(s);
+        updateMain_LBL_progress();
 
     }
 
     private void setItemsInList() {
 
-        items = new ArrayList<>(itemEntryHashMap.values());
+        userItems = new ArrayList<>(userItemEntryHashMap.values());
 
-        item_adapter = new ItemAdapter(getActivity(), items);
+        item_adapter = new UserItemAdapter(getActivity(), userItems);
 
-        item_adapter.setClickListener(new ItemAdapter.MyItemClickListener() {
+        item_adapter.setClickListener(new UserItemAdapter.MyItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                MyHelper.getInstance().toast(items.get(position).getName());
+                MyHelper.getInstance().toast(userItems.get(position).getItemEntry().getName());
             }
 
             @Override
-            public void onReadMoreClicked(View view, ItemEntry item) {
-
+            public void onSetQuantityClicked(View view, UserItemEntry item) {
+                openQuantityPopUp(view, item);
 //                openInfo(item);
             }
 
             @Override
-            public void onAddItemClicked(View view, ItemEntry item) {
-                view.setEnabled(false);
+            public void onRemoveItemClicked(View view, UserItemEntry item) {
                 remove(item);
             }
+
         });
 
         home_LST_list.setLayoutManager(new LinearLayoutManager(getActivity()));
         home_LST_list.setAdapter(item_adapter);
     }
 
-    private void remove(ItemEntry item) {
+    private void openQuantityPopUp(View view, UserItemEntry item) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Enter Quantity");
+
+        final EditText et = new EditText(getActivity());
+        et.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+        builder.setView(et);
+
+        // set dialog message
+        builder.setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                try {
+                    int quantity = Integer.parseInt(et.getText().toString());
+
+                    FirebaseUser user = FirebaseHelper.getInstance().getUser();
+                    DatabaseReference myUserRef = FirebaseHelper.getInstance().getDatabaseReference(USERS_REF).
+                            child(user.getUid()).child(DATES_REF).child(main_BTN_changeDate.getText().toString());
+
+                    myUserRef.child(item.getItemEntry().getName()).setValue(quantity);
+                }catch (Exception e){
+                    MyHelper.getInstance().toast("Quantity should only be numeric");
+                }
+
+                loadUserItems();
+                item_adapter.notifyDataSetChanged();
+            }
+        });
+
+        // create alert dialog
+        AlertDialog alertDialog = builder.create();
+        // show it
+        alertDialog.show();
+
+
+
+    }
+
+    private void remove(UserItemEntry item) {
         item_adapter.removeItem(item);
 
         FirebaseUser user = FirebaseHelper.getInstance().getUser();
         DatabaseReference myRef = FirebaseHelper.getInstance().getDatabaseReference(USERS_REF);
 
         myRef.child(user.getUid()).child(DATES_REF).child(main_BTN_changeDate.getText().toString())
-                .child(item.getName()).removeValue();
+                .child(item.getItemEntry().getName()).removeValue();
+
+        MyHelper.getInstance().toast(item.getItemEntry().getName() + " has been removed from your list");
+
     }
 
 
@@ -281,9 +339,6 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
                             s = getActivity().getResources().getString(R.string.bmi) + " " +
                                     String.format("%.2f", bmi);
                             main_LBL_bmi.setText(s);
-                            s = getActivity().getResources().getString(R.string.progress_score) + " " +
-                                    String.format("%.1f", score) + " \\ "+ userInfo.getUserDailyScore()  + " red hearts";
-                            main_LBL_progress.setText(s);
                             Log.d("pttt", "Value is: " + userInfo.getUserName());
                         }
                     } catch (Exception e) {
@@ -299,10 +354,6 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
                 Log.w("pttt", "Failed to read value.", error.toException());
             }
         });
-
-//        userInfo = gson.fromJson(MySP.getInstance().getString(USER_INFO, ""), UserInfo.class);
-
-
     }
 
 
@@ -352,7 +403,7 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
         String date = dayOfMonth + "-" + month + "-" + year;
         updateMain_LBL_date(date);
 
-        score = 0;
+        resetScores();
         item_adapter.clear();
         loadUserItems();
         item_adapter.notifyDataSetChanged();
@@ -369,6 +420,41 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
 
     private void updateMain_LBL_date(String date) {
         main_BTN_changeDate.setText(date);
+    }
+
+    private void updateMain_LBL_progress() {
+        String s1, s2, s3, s4;
+        int len1, len2, len3, len4;
+        s1 = getActivity().getResources().getString(R.string.progress_score) + "\n" +
+                red_score + " \\ " + userInfo.getUserDailyScore() + " red hearts\n";
+        s2 = " " + black_score + " \\ " + ((int) (userInfo.getUserDailyScore() / 4))
+                + " black hearts\n";
+        s3 = green_score + " green stars";
+        s4 = " and " + water_glasses + " water glasses";
+
+        len1 = getActivity().getResources().getString(R.string.progress_score).length();
+        len2 = s1.length();
+        len3 = len2 + s2.length();
+        len4 = len3 + s3.length() + 4;
+
+        // Changes a part of the label's color
+        Spannable wordtoSpan = new SpannableString(s1 + s2 + s3 + s4);
+        wordtoSpan.setSpan(new ForegroundColorSpan(Color.RED), len1, s1.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        wordtoSpan.setSpan(new ForegroundColorSpan(Color.BLACK), len2, s1.length() + s2.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        wordtoSpan.setSpan(new ForegroundColorSpan(Color.GREEN), len3, s1.length() + s2.length() + s3.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        wordtoSpan.setSpan(new ForegroundColorSpan(Color.BLUE), len4, s1.length() + s2.length() + s3.length() + s4.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        main_LBL_progress.setText(wordtoSpan);
+    }
+
+    private void resetScores() {// resets all the scores
+        red_score = 0;
+        black_score = 0;
+        green_score = 0;
+        water_glasses = 0;
     }
 
 }

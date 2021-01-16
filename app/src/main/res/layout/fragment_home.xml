@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:textSize="30sp"
             android:textColor="@color/black"
+            android:textStyle="bold"
             />
 
 
@@ -45,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:textColor="@color/black"
+            android:textColor="@color/grey"
             android:textStyle="bold|italic"
             />
 
@@ -68,8 +69,8 @@
                 app:cornerRadius="50dp"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 app:strokeWidth="2dp"
-                app:strokeColor="@color/drink_blue"
-                android:textColor="@color/drink_blue"
+                app:strokeColor="@color/blue_a700"
+                android:textColor="@color/blue_a700"
                 />
 
             <com.google.android.material.button.MaterialButton
@@ -85,8 +86,8 @@
                 app:cornerRadius="50dp"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 app:strokeWidth="2dp"
-                app:strokeColor="@color/activity_green"
-                android:textColor="@color/activity_green"
+                app:strokeColor="@color/green_a700"
+                android:textColor="@color/green_a700"
                 />
 
             <com.google.android.material.button.MaterialButton
@@ -101,8 +102,8 @@
                 app:cornerRadius="50dp"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 app:strokeWidth="2dp"
-                app:strokeColor="@color/food_red"
-                android:textColor="@color/food_red"
+                app:strokeColor="@color/red_a700"
+                android:textColor="@color/red_a700"
                 />
         </LinearLayout>
 
@@ -111,7 +112,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15sp"
-            android:textColor="@color/black"
+            android:textColor="@color/grey"
             />
 
         <TextView
@@ -119,7 +120,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:textColor="@color/black"
+            android:textColor="@color/grey"
             />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -127,7 +128,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="10dp"
-            android:layout_margin="30dp"
+            android:layout_margin="20dp"
             android:background="#45454545" />
 
     </LinearLayout>

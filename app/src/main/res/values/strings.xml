@@ -23,7 +23,7 @@
     <string name="hello">Hello</string>
     <string name="last_weight">Last Known Weight:</string>
     <string name="bmi">Your BMI is:</string>
-    <string name="progress_score">Your progress is</string>
+    <string name="progress_score">Your progress is:</string>
 
 
 
@@ -43,8 +43,13 @@
     <string name="no_internet_connection" translatable="false">No internet connection</string>
     <string name="unknown_error" translatable="false">unknown error</string>
     <string name="add_item">Add Item</string>
+    <string name="remove_item">Remove Item</string>
+    <string name="set_quantity">Set Quantity</string>
     <string name="log_out">Log Out and Exit</string>
+
+    <string name="quantity">quantity is:</string>
 
     <string name="item_creation">Creation Page</string>
     <string name="item_amount_measure">is being measured by</string>
+    <string name="free">Item is free</string>
 </resources>

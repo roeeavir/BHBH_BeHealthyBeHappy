@@ -115,7 +115,12 @@ public class SearchViewController {// Search Activity Controller Class
         FirebaseUser user = FirebaseHelper.getInstance().getUser();
         DatabaseReference myRef = FirebaseHelper.getInstance().getDatabaseReference(USERS_REF);
 
-        myRef.child(user.getUid()).child(DATES_REF).child(date).child(item.getName()).setValue(item.getName());
+        if (item.getItemType() == Enums.ITEM_THEME.ACTIVITY)
+            myRef.child(user.getUid()).child(DATES_REF).child(date).child(item.getName()).setValue(15);
+        else
+            myRef.child(user.getUid()).child(DATES_REF).child(date).child(item.getName()).setValue(100);
+
+        MyHelper.getInstance().toast(item.getName() + " has been added to your list!");
 
     }
 
