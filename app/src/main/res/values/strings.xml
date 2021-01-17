@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">BHBH - Be Healthy Be Happy</string>
+    <string name="tap_to_begin">Tap To Begin</string>
+
     <string name="name">Name</string>
     <string name="age">Age</string>
     <string name="weight">Weight (kg)</string>
@@ -26,7 +28,6 @@
     <string name="progress_score">Your progress is:</string>
 
 
-
     <string name="read">Read More</string>
     <string name="add_custom">Add Custom</string>
     <string name="item_name">Name of</string>
@@ -45,9 +46,9 @@
     <string name="add_item">Add Item</string>
     <string name="remove_item">Remove Item</string>
     <string name="set_quantity">Set Quantity</string>
-    <string name="log_out">Log Out and Exit</string>
+    <string name="log_out">Log Out</string>
 
-    <string name="quantity">quantity is:</string>
+    <string name="quantity">Quantity:</string>
 
     <string name="item_creation">Creation Page</string>
     <string name="item_amount_measure">is being measured by</string>

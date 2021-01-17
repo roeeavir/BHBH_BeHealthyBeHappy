@@ -6,7 +6,7 @@ import com.example.bhbh_behealthybehappy.Controllers.CustomItemViewController;
 import com.example.bhbh_behealthybehappy.R;
 import com.example.bhbh_behealthybehappy.Constants_Enums.Enums;
 
-public class CustomeItemActivity extends Activity_Base {
+public class CustomeItemActivity extends BaseActivity {
 
     public static final String ADD_CUSTOM_ITEM = "ADD_CUSTOM_ITEM";
 

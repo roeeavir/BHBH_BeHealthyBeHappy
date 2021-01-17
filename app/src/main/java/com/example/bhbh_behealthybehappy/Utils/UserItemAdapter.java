@@ -1,6 +1,8 @@
 package com.example.bhbh_behealthybehappy.Utils;
 
 import android.content.Context;
+import android.text.Spanned;
+import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,29 +46,44 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemAdapter.MyView
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Log.d("pttt", "Position = " + position);
         UserItemEntry m = items.get(position);
+        String total_score = "";
+        String total_quantity = "";
         holder.listUserItem_LBL_name.setText(m.getItemEntry().getName());
-        holder.listUserItem_LBL_time.setText(m.getItemEntry().toString());
-        holder.listUserItem_LBL_quantity.setText(holder.itemView.getResources().getString(R.string.quantity) + " " + m.getQuantity());
-        if (m.getItemEntry().getItemType() == Enums.ITEM_THEME.ACTIVITY)
+        if (m.getItemEntry().getItemType() == Enums.ITEM_THEME.ACTIVITY) {
             setActivity(holder, m);
-        else {
+            total_score = m.getScore_by_quantity() + " green star(s)";
+            total_quantity = " minutes";
+        } else {
             if (m.getScore_by_quantity() == 0)
                 holder.listUserItem_LBL_free.setVisibility(View.VISIBLE);
             else if (m.getItemEntry().getScoreType() == Enums.SCORE.RED_HEART) {
                 holder.listUserItem_RTB_redHearts.setRating((float) m.getScore_by_quantity());
                 holder.listUserItem_RTB_redHearts.setVisibility(View.VISIBLE);
+                total_score = m.getScore_by_quantity() + " red heart(s)";
 
             } else {
                 holder.listUserItem_RTB_blackHearts.setRating((float) m.getScore_by_quantity());
                 holder.listUserItem_RTB_blackHearts.setVisibility(View.VISIBLE);
+                total_score = m.getScore_by_quantity() + " black heart(s)";
+
             }
             if (m.getItemEntry().getItemType() == Enums.ITEM_THEME.DRINK) {
-                setDrink(holder, m);
-            } else
-                setFood(holder, m);
-
-
+                setDrink(holder);
+                total_quantity = " milliliters";
+            } else {
+                setFood(holder);
+                total_quantity = " grams";
+            }
         }
+
+        if (m.getScore_by_quantity() >= 5) {
+            total_score = "Total score:\n" + total_score;
+            holder.listUserItem_LBL_score.setText(total_score);
+            holder.listUserItem_LBL_score.setVisibility(View.VISIBLE);
+        }
+        total_quantity = holder.itemView.getResources().getString(R.string.quantity) + "\n" +
+                m.getQuantity() + total_quantity;
+        holder.listUserItem_LBL_quantity.setText(total_quantity);
 
         holder.listUserItem_BTN_setQuantity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,18 +106,17 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemAdapter.MyView
 
     }
 
-    private void setFood(@NonNull MyViewHolder holder, UserItemEntry m) {
+
+    private void setFood(@NonNull MyViewHolder holder) {
         holder.listUserItemRLT_background1.setBackgroundResource(R.drawable.item_list_background_red);
         holder.listUserItem_RLT_background2.setBackgroundResource(R.drawable.item_list_background_red);
         holder.listUserItem_RLT_background3.setBackgroundResource(R.drawable.item_list_background_red);
-        holder.listUserItem_LBL_quantity.setText(holder.listUserItem_LBL_quantity.getText() + " grams");
     }
 
-    private void setDrink(@NonNull MyViewHolder holder, UserItemEntry m) {
+    private void setDrink(@NonNull MyViewHolder holder) {
         holder.listUserItemRLT_background1.setBackgroundResource(R.drawable.item_list_background_blue);
         holder.listUserItem_RLT_background2.setBackgroundResource(R.drawable.item_list_background_blue);
         holder.listUserItem_RLT_background3.setBackgroundResource(R.drawable.item_list_background_blue);
-        holder.listUserItem_LBL_quantity.setText(holder.listUserItem_LBL_quantity.getText() + " milliliters");
     }
 
     private void setActivity(@NonNull MyViewHolder holder, UserItemEntry m) {
@@ -109,7 +125,6 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemAdapter.MyView
         holder.listUserItemRLT_background1.setBackgroundResource(R.drawable.item_list_background_green);
         holder.listUserItem_RLT_background2.setBackgroundResource(R.drawable.item_list_background_green);
         holder.listUserItem_RLT_background3.setBackgroundResource(R.drawable.item_list_background_green);
-        holder.listUserItem_LBL_quantity.setText(holder.listUserItem_LBL_quantity.getText() + " minutes");
     }
 
 
@@ -128,31 +143,6 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemAdapter.MyView
         this.mClickListener = itemClickListener;
     }
 
-    public void filter(String text) {// Filters items in list
-        items.clear();
-        if (text.isEmpty()) {
-            items.addAll(itemsCopy);
-        } else {
-            text = text.toLowerCase();
-            for (UserItemEntry item : itemsCopy) {
-                if (item.getItemEntry().getName().toLowerCase().contains(text)) { // Shows items by name
-                    items.add(item);
-                } else if (text.equals("free")) { // Shows all free items
-                    if (item.getScore_by_quantity() == 0) {
-                        items.add(item);
-                    }
-                }
-                try {
-                    if (item.getScore_by_quantity() == Double.parseDouble(text)) { // Shows items by score
-                        items.add(item);
-                    }
-                } catch (Exception e) {
-
-                }
-            }
-        }
-        notifyDataSetChanged();
-    }
 
     public void clear() {
         int size = items.size();
@@ -182,8 +172,8 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemAdapter.MyView
 
         TextView listUserItem_LBL_name;
         TextView listUserItem_LBL_free;
-        TextView listUserItem_LBL_time;
         TextView listUserItem_LBL_quantity;
+        TextView listUserItem_LBL_score;
         MaterialButton listUserItem_BTN_setQuantity;
         MaterialButton listUserItem_BTN_removeItem;
         AppCompatRatingBar listUserItem_RTB_redHearts;
@@ -197,8 +187,8 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemAdapter.MyView
         public MyViewHolder(View itemView) {
             super(itemView);
             listUserItem_LBL_name = itemView.findViewById(R.id.listUserItem_LBL_name);
-            listUserItem_LBL_time = itemView.findViewById(R.id.listUserItem_LBL_time);
             listUserItem_LBL_free = itemView.findViewById(R.id.listUserItem_LBL_free);
+            listUserItem_LBL_score = itemView.findViewById(R.id.listUserItem_LBL_score);
             listUserItem_LBL_quantity = itemView.findViewById(R.id.listUserItem_LBL_quantity);
             listUserItem_BTN_setQuantity = itemView.findViewById(R.id.listUserItem_BTN_setQuantity);
             listUserItem_BTN_removeItem = itemView.findViewById(R.id.listUserItem_BTN_removeItem);
@@ -217,6 +207,16 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemAdapter.MyView
                     }
                 }
             });
+        }
+    }
+
+    public class TextSpan extends ClickableSpan {
+        @Override
+        public void onClick(View widget) {
+            TextView tv = (TextView) widget;
+            Spanned s = (Spanned) tv.getText();
+            //int start = s.getSpanStart(this);
+            //int end = s.getSpanEnd(this);
         }
     }
 

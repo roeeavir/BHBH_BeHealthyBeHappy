@@ -31,6 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 import static com.example.bhbh_behealthybehappy.Constants_Enums.Constants.DATES_REF;
@@ -87,6 +88,8 @@ public class SearchViewController {// Search Activity Controller Class
 
         items = new ArrayList<>(itemsMap.values());
 
+        Collections.sort(items);
+
         item_adapter = new ItemAdapter(((SearchActivity) context), items);
 
         item_adapter.setClickListener(new ItemAdapter.MyItemClickListener() {
@@ -115,12 +118,18 @@ public class SearchViewController {// Search Activity Controller Class
         FirebaseUser user = FirebaseHelper.getInstance().getUser();
         DatabaseReference myRef = FirebaseHelper.getInstance().getDatabaseReference(USERS_REF);
 
-        if (item.getItemType() == Enums.ITEM_THEME.ACTIVITY)
-            myRef.child(user.getUid()).child(DATES_REF).child(date).child(item.getName()).setValue(15);
-        else
-            myRef.child(user.getUid()).child(DATES_REF).child(date).child(item.getName()).setValue(100);
 
-        MyHelper.getInstance().toast(item.getName() + " has been added to your list!");
+//        if(!myRef.child(user.getUid()).child(DATES_REF).child(date).child(item.getName()).getKey().equals(item.getName())) {
+            if (item.getItemType() == Enums.ITEM_THEME.ACTIVITY)
+                myRef.child(user.getUid()).child(DATES_REF).child(date).child(item.getName()).setValue(15);
+            else
+                myRef.child(user.getUid()).child(DATES_REF).child(date).child(item.getName()).setValue(100);
+
+            MyHelper.getInstance().toast(item.getName() + " has been added to your list!");
+//        }
+//        else {
+//            MyHelper.getInstance().toast(item.getName() + " is already in your list");
+//        }
 
     }
 
@@ -159,9 +168,6 @@ public class SearchViewController {// Search Activity Controller Class
             }
         });
 
-//        items.add(new ItemEntry("ma", Enums.SCORE.RED_HEART, "mi"));
-
-
     }
 
     private void initViews() {
@@ -175,7 +181,13 @@ public class SearchViewController {// Search Activity Controller Class
             @Override
             public void onClick(View v) {
                 openCustomActivity();
-//                ((SearchActivity) context).recreate();
+            }
+        });
+
+        search_IBT_addWater.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addWaterGlass();
             }
         });
 
@@ -194,6 +206,21 @@ public class SearchViewController {// Search Activity Controller Class
         });
 
 
+    }
+
+    private void addWaterGlass() {
+        FirebaseUser user = FirebaseHelper.getInstance().getUser();
+        DatabaseReference myRef = FirebaseHelper.getInstance().getDatabaseReference(USERS_REF);
+//        int temp = 0;
+//        try{
+//            temp = myRef.child(user.getUid()).child(DATES_REF).child(date).child("Water").
+//        }catch (Exception e){
+//
+//        }
+
+        myRef.child(user.getUid()).child(DATES_REF).child(date).child("Water").setValue(1);
+
+        MyHelper.getInstance().toast("Water glass has been added to your list!");
     }
 
     private void openCustomActivity() {

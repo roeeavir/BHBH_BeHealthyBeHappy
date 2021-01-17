@@ -30,22 +30,23 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_margin="5dp"
-                android:textSize="20sp" />
+                android:textColor="@color/black"
+                android:textSize="18sp" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/listUserItem_BTN_setQuantity"
+                android:id="@+id/listUserItem_BTN_removeItem"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_centerHorizontal="true"
+                android:layout_height="50dp"
                 android:layout_alignParentBottom="true"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
                 android:minWidth="10dp"
                 android:minHeight="10dp"
-                android:text="@string/set_quantity"
-                android:textColor="@color/red_a700"
+                android:text="@string/remove_item"
+                android:textColor="@color/orange_500"
                 android:textSize="12sp" />
+
         </RelativeLayout>
 
 
@@ -53,24 +54,9 @@
             android:id="@+id/listUserItem_RLT_background2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
+            android:gravity="center"
             android:layout_weight="1"
             android:background="@drawable/item_list_background_green">
-
-            <TextView
-                android:id="@+id/listUserItem_LBL_quantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="10dp"
-                android:ellipsize="end"
-                android:maxLines="4"
-                android:textColor="@color/black"
-                android:textSize="12sp"
-                />
-
 
 
             <androidx.appcompat.widget.AppCompatRatingBar
@@ -78,8 +64,8 @@
                 style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/listUserItem_LBL_quantity"
                 android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
                 android:layout_margin="5dp"
                 android:rating="0"
                 android:theme="@style/RatingBarRedHearts"
@@ -110,6 +96,7 @@
                 android:theme="@style/RatingBarGreenStars"
                 android:visibility="gone" />
 
+
             <TextView
                 android:id="@+id/listUserItem_LBL_free"
                 android:layout_width="wrap_content"
@@ -127,6 +114,22 @@
                 android:textStyle="bold"
                 android:visibility="gone" />
 
+            <TextView
+                android:id="@+id/listUserItem_LBL_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/listUserItem_RTB_greenStars"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="10dp"
+                android:ellipsize="end"
+                android:maxLines="4"
+                android:textColor="@color/grey"
+                android:textSize="12sp"
+                android:visibility="gone"
+                />
+
         </RelativeLayout>
 
 
@@ -139,31 +142,32 @@
             android:background="@drawable/item_list_background_green">
 
             <TextView
-                android:id="@+id/listUserItem_LBL_time"
+                android:id="@+id/listUserItem_LBL_quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="10dp"
                 android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="3"
-
-                android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:maxLines="4"
+                android:textColor="@color/grey"
+                android:textSize="12sp"
+                />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/listUserItem_BTN_removeItem"
+                android:id="@+id/listUserItem_BTN_setQuantity"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_below="@+id/listUserItem_LBL_time"
+                android:layout_height="40dp"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
                 android:minWidth="10dp"
                 android:minHeight="10dp"
-                android:text="@string/remove_item"
-                android:textColor="@color/orange_500"
+                android:text="@string/set_quantity"
+                android:textColor="@color/red_a700"
                 android:textSize="12sp" />
 
         </RelativeLayout>

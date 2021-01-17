@@ -11,7 +11,7 @@ import com.example.bhbh_behealthybehappy.Utils.MyHelper;
 import com.example.bhbh_behealthybehappy.Utils.ScreenUtils;
 
 
-public class Activity_Base extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity {
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {

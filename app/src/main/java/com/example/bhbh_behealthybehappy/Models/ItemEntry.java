@@ -4,7 +4,7 @@ import com.example.bhbh_behealthybehappy.Constants_Enums.Enums;
 
 import org.jetbrains.annotations.NotNull;
 
-public class ItemEntry {
+public class ItemEntry implements Comparable<ItemEntry> {
 
     //Variables
     private String name = "";
@@ -123,5 +123,10 @@ public class ItemEntry {
             return "Carbs: " + carbs + " grams" +
                     "\nCalories: " + calories +
                     "\nNotes: " + notes;
+    }
+
+    @Override
+    public int compareTo(ItemEntry o) {
+        return this.getName().compareTo(o.getName());
     }
 }
