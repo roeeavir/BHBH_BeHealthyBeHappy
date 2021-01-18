@@ -1,7 +1,6 @@
 package com.example.bhbh_behealthybehappy.Fragments;
 
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,13 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.bhbh_behealthybehappy.Models.SettingsViewModel;
 import com.example.bhbh_behealthybehappy.Models.UserInfo;
 import com.example.bhbh_behealthybehappy.R;
-import com.example.bhbh_behealthybehappy.Utils.CallBack;
 import com.example.bhbh_behealthybehappy.Utils.FirebaseHelper;
 import com.example.bhbh_behealthybehappy.Utils.MyHelper;
-import com.example.bhbh_behealthybehappy.Utils.MySP;
 import com.example.bhbh_behealthybehappy.Utils.ScreenUtils;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.textfield.TextInputLayout;
@@ -29,7 +25,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -40,8 +35,6 @@ import static com.example.bhbh_behealthybehappy.Constants_Enums.Constants.USER_I
 public class SettingsFragment extends Fragment {
 
     // Variables
-    private SettingsViewModel settingsViewModel;
-
     private TextInputLayout settings_EDT_name;
     private TextInputLayout settings_EDT_age;
     private TextInputLayout settings_EDT_weight;
@@ -54,17 +47,8 @@ public class SettingsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        settingsViewModel =
-                new ViewModelProvider(this).get(SettingsViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_settings, container, false);
-//        final TextView textView = root.findViewById(R.id.text_notifications);
-//        settingsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-//            }
-//        });
 
+        View root = inflater.inflate(R.layout.fragment_settings, container, false);
 
         findViews(root);
         initViews();

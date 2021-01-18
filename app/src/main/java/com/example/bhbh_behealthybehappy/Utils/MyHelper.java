@@ -13,7 +13,7 @@ import android.widget.Toast;
 public class MyHelper {
 
     // Variables
-    private final int VIBRATE_DURATION = 400;
+    private final int VIBRATE_DURATION = 300;
 
     private static MyHelper instance;
     private Context appContext;

@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.example.bhbh_behealthybehappy.Activities.LoginActivity;
 import com.example.bhbh_behealthybehappy.Activities.SplashActivity;
 import com.example.bhbh_behealthybehappy.R;
+import com.example.bhbh_behealthybehappy.Utils.MyHelper;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.Random;
@@ -33,6 +34,7 @@ public class SplashViewController {
     private ImageView splash_IMG_background;
     private MaterialButton splash_BTN_start;
     private TextView splash_LBL_name;
+
 
     private Timer carousalTimer;
 
@@ -59,6 +61,7 @@ public class SplashViewController {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(context, LoginActivity.class);
+                MyHelper.getInstance().vibrate();
                 context.startActivity(myIntent);
             }
         });
@@ -87,6 +90,7 @@ public class SplashViewController {
                         splash_BTN_start.setVisibility(View.VISIBLE);
                         splash_IMG_background.setAlpha((float) 0.7);
                         startCounting();
+                        MyHelper.getInstance().playAudio(R.raw.fall_animation_sound);
                     }
 
                     @Override

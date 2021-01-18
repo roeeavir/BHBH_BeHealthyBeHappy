@@ -2,6 +2,7 @@ package com.example.bhbh_behealthybehappy.Activities;
 
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.bhbh_behealthybehappy.Controllers.SearchViewController;
 import com.example.bhbh_behealthybehappy.R;
@@ -22,6 +23,7 @@ public class SearchActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         isDoubleBackPressToClose = true;
+        Log.d("pttt", "Created SearchActivity");
 
         searchViewController = new SearchViewController(this);
 

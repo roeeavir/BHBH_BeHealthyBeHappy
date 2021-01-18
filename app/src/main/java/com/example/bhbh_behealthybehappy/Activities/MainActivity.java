@@ -1,6 +1,7 @@
 package com.example.bhbh_behealthybehappy.Activities;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -22,6 +23,7 @@ public class MainActivity extends BaseActivity {
         getSupportActionBar().hide(); // hide the title bar
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
+        Log.d("pttt", "Created MainActivity");
 
         setContentView(R.layout.activity_main);
 
@@ -29,8 +31,7 @@ public class MainActivity extends BaseActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_settings)
-                .build();
+                R.id.navigation_home, R.id.navigation_settings).build();
         NavController navController = Navigation.findNavController(this,
                 R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController,

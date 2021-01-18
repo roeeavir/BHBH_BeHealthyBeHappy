@@ -14,9 +14,9 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
-        MyHelper.init(this);
+        MyHelper.init(this); // Initialize helper class
 //        MySP.init(this);
-        FirebaseHelper.init(this);
+        FirebaseHelper.init(this); // Initialize firebase helper class
 
     }
 }

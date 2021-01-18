@@ -1,6 +1,7 @@
 package com.example.bhbh_behealthybehappy.Activities;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.bhbh_behealthybehappy.Controllers.CustomItemViewController;
 import com.example.bhbh_behealthybehappy.R;
@@ -20,6 +21,7 @@ public class CustomeItemActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custome_item);
         isDoubleBackPressToClose = true;
+        Log.d("pttt", "Created CustomItemActivity");
 
         customItemViewController = new CustomItemViewController(this);
 

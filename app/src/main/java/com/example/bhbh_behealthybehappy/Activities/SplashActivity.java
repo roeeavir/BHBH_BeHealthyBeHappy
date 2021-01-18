@@ -15,13 +15,14 @@ import android.widget.TextView;
 
 import com.example.bhbh_behealthybehappy.Controllers.SplashViewController;
 import com.example.bhbh_behealthybehappy.R;
+import com.example.bhbh_behealthybehappy.Utils.MyHelper;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends BaseActivity {
 
 
     private SplashViewController splashViewController;
@@ -31,6 +32,8 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        isDoubleBackPressToClose = true;
+        Log.d("pttt", "Created SplashActivity");
 
         splashViewController = new SplashViewController(this);
 

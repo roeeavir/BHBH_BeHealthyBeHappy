@@ -127,7 +127,7 @@ public class SearchViewController {// Search Activity Controller Class
                         myRef.child(user.getUid()).child(DATES_REF).child(date).child(item.getName()).setValue(15);
                     else
                         myRef.child(user.getUid()).child(DATES_REF).child(date).child(item.getName()).setValue(100);
-
+                    MyHelper.getInstance().playAudio(R.raw.item_added);
                     MyHelper.getInstance().toast(item.getName() + " has been added to your list!");
                 }
             }
@@ -227,6 +227,7 @@ public class SearchViewController {// Search Activity Controller Class
                     myRef.child(user.getUid()).child(DATES_REF).child(date).child("Water").setValue(water_glasses);
                 } else
                     myRef.child(user.getUid()).child(DATES_REF).child(date).child("Water").setValue(1);
+                MyHelper.getInstance().playAudio(R.raw.water_added);
                 MyHelper.getInstance().toast("Water glass has been added to your list!");
 
             }

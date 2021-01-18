@@ -23,13 +23,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bhbh_behealthybehappy.Activities.SearchActivity;
 import com.example.bhbh_behealthybehappy.Constants_Enums.Enums;
-import com.example.bhbh_behealthybehappy.Models.HomeViewModel;
 import com.example.bhbh_behealthybehappy.Models.ItemEntry;
 import com.example.bhbh_behealthybehappy.Models.UserInfo;
 import com.example.bhbh_behealthybehappy.Models.UserItemEntry;
@@ -41,7 +39,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -61,8 +58,6 @@ import static com.example.bhbh_behealthybehappy.Constants_Enums.Constants.USER_I
 public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
     // Variables
-    private HomeViewModel homeViewModel;
-
     private Button main_BTN_changeDate;
     private Button main_BTN_addDrink;
     private Button main_BTN_addActivity;
@@ -90,15 +85,7 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-//        final TextView textView = root.findViewById(R.id.text_home);
-//        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-//            }
-//        });
 
         findViews(root);
         initViews();
@@ -300,6 +287,8 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
 
         item_adapter.removeItem(item);
 
+        MyHelper.getInstance().playAudio(R.raw.item_removed);
+
         MyHelper.getInstance().toast(item.getItemEntry().getName() + " has been removed from your list");
         Log.w("pttt", item.getItemEntry().getName() + " has been removed from your list");
 
@@ -343,10 +332,15 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
+                String s;
 
                 userInfo = dataSnapshot.child(user.getUid()).child(USER_INFO_REF).getValue(UserInfo.class);
                 if (userInfo == null) {
-                    main_LBL_name.setText(getActivity().getResources().getString(R.string.hello_none));
+                    if (user.getDisplayName().isEmpty())
+                        s = getActivity().getResources().getString(R.string.hello_none);
+                    else
+                        s = getActivity().getResources().getString(R.string.hello) + " " + user.getDisplayName();
+                    main_LBL_name.setText(s);
                     main_LBL_weight.setText(getActivity().getResources().getString(R.string.weight_none));
                     main_LBL_bmi.setText(getActivity().getResources().getString(R.string.weight_none));
                     main_LBL_progress.setText(getActivity().getResources().getString(R.string.score_none));
@@ -354,7 +348,6 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
                 } else {
                     try {
                         if (getActivity() != null) {
-                            String s;
                             double bmi = (double) userInfo.getUserWeight() / Math.pow((double) userInfo.getUserHeight() / 100, 2);
                             s = getActivity().getResources().getString(R.string.hello) + " " +
                                     userInfo.getUserName();
