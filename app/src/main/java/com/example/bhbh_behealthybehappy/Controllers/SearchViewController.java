@@ -72,7 +72,6 @@ public class SearchViewController {// Search Activity Controller Class
 
         generateItems();
 
-
     }
 
     private void findViews() {
@@ -118,19 +117,26 @@ public class SearchViewController {// Search Activity Controller Class
         FirebaseUser user = FirebaseHelper.getInstance().getUser();
         DatabaseReference myRef = FirebaseHelper.getInstance().getDatabaseReference(USERS_REF);
 
+        myRef.child(user.getUid()).child(DATES_REF).child(date).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.child(item.getName()).exists()) {
+                    MyHelper.getInstance().toast(item.getName() + " is already in your list");
+                } else {
+                    if (item.getItemType() == Enums.ITEM_THEME.ACTIVITY)
+                        myRef.child(user.getUid()).child(DATES_REF).child(date).child(item.getName()).setValue(15);
+                    else
+                        myRef.child(user.getUid()).child(DATES_REF).child(date).child(item.getName()).setValue(100);
 
-//        if(!myRef.child(user.getUid()).child(DATES_REF).child(date).child(item.getName()).getKey().equals(item.getName())) {
-            if (item.getItemType() == Enums.ITEM_THEME.ACTIVITY)
-                myRef.child(user.getUid()).child(DATES_REF).child(date).child(item.getName()).setValue(15);
-            else
-                myRef.child(user.getUid()).child(DATES_REF).child(date).child(item.getName()).setValue(100);
+                    MyHelper.getInstance().toast(item.getName() + " has been added to your list!");
+                }
+            }
 
-            MyHelper.getInstance().toast(item.getName() + " has been added to your list!");
-//        }
-//        else {
-//            MyHelper.getInstance().toast(item.getName() + " is already in your list");
-//        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
     }
 
     private void openInfo(ItemEntry item) {// Opens a dialog window containing item notes
@@ -211,16 +217,25 @@ public class SearchViewController {// Search Activity Controller Class
     private void addWaterGlass() {
         FirebaseUser user = FirebaseHelper.getInstance().getUser();
         DatabaseReference myRef = FirebaseHelper.getInstance().getDatabaseReference(USERS_REF);
-//        int temp = 0;
-//        try{
-//            temp = myRef.child(user.getUid()).child(DATES_REF).child(date).child("Water").
-//        }catch (Exception e){
-//
-//        }
+        String water = "Water";
 
-        myRef.child(user.getUid()).child(DATES_REF).child(date).child("Water").setValue(1);
+        myRef.child(user.getUid()).child(DATES_REF).child(date).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.child(water).exists()) {
+                    int water_glasses = snapshot.child(water).getValue(Integer.class) + 1;
+                    myRef.child(user.getUid()).child(DATES_REF).child(date).child("Water").setValue(water_glasses);
+                } else
+                    myRef.child(user.getUid()).child(DATES_REF).child(date).child("Water").setValue(1);
+                MyHelper.getInstance().toast("Water glass has been added to your list!");
 
-        MyHelper.getInstance().toast("Water glass has been added to your list!");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void openCustomActivity() {

@@ -44,7 +44,7 @@
                 android:minWidth="10dp"
                 android:minHeight="10dp"
                 android:text="@string/remove_item"
-                android:textColor="@color/orange_500"
+                android:textColor="@color/orange_700"
                 android:textSize="12sp" />
 
         </RelativeLayout>
@@ -54,33 +54,35 @@
             android:id="@+id/listUserItem_RLT_background2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:gravity="center"
+            android:gravity="center_horizontal"
             android:layout_weight="1"
             android:background="@drawable/item_list_background_green">
 
 
             <androidx.appcompat.widget.AppCompatRatingBar
                 android:id="@+id/listUserItem_RTB_redHearts"
-                style="@style/Widget.AppCompat.RatingBar.Small"
-                android:layout_width="wrap_content"
+                style="@style/myRedHeartRatingBar"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentTop="true"
                 android:layout_margin="5dp"
                 android:rating="0"
-                android:theme="@style/RatingBarRedHearts"
+                android:scaleY="0.8"
+                android:scaleX="0.8"
                 android:visibility="gone" />
 
             <androidx.appcompat.widget.AppCompatRatingBar
                 android:id="@+id/listUserItem_RTB_blackHearts"
-                style="@style/Widget.AppCompat.RatingBar.Small"
+                style="@style/myBlackHeartRatingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/listUserItem_RTB_redHearts"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="5dp"
                 android:rating="0"
-                android:theme="@style/RatingBarBlackHearts"
+                android:scaleY="0.8"
+                android:scaleX="0.8"
                 android:visibility="gone"
                 />
 
@@ -119,6 +121,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:gravity="center"
                 android:layout_below="@+id/listUserItem_RTB_greenStars"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="4dp"
@@ -167,7 +170,12 @@
                 android:minWidth="10dp"
                 android:minHeight="10dp"
                 android:text="@string/set_quantity"
-                android:textColor="@color/red_a700"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:strokeWidth="1dp"
+                android:layout_margin="5dp"
+                app:strokeColor="@color/black"
+                app:cornerRadius="20dp"
                 android:textSize="12sp" />
 
         </RelativeLayout>

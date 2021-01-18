@@ -27,19 +27,18 @@
         <item name="colorControlActivated">@color/green_700</item>
     </style>
 
-    <style name="RatingBarRedHearts" parent="Theme.AppCompat">
-        <item name="colorControlNormal">@color/transparent</item>
-        <item name="colorControlActivated">@color/red_a700</item>
+
+
+    <style name="myRedHeartRatingBar" parent="@style/Widget.AppCompat.RatingBar.Small">
+        <item name="android:progressDrawable">@drawable/red_hearts_rating_bar</item>
+        <item name="android:minHeight">23dp</item>
+        <item name="android:maxHeight">25dp</item>
     </style>
 
-    <style name="RatingBarBlackHearts" parent="Theme.AppCompat">
-        <item name="colorControlNormal">@color/transparent</item>
-        <item name="colorControlActivated">@color/black</item>
-    </style>
-
-    <style name="myRatingBar" parent="@style/Widget.AppCompat.RatingBar.Small">
-        <item name="android:progressDrawable">@drawable/ratingbar_heart</item>
-        <item name="android:indeterminateDrawable">@drawable/ratingbar_heart</item>
+    <style name="myBlackHeartRatingBar" parent="@style/Widget.AppCompat.RatingBar.Small">
+        <item name="android:progressDrawable">@drawable/black_hearts_rating_bar</item>
+        <item name="android:minHeight">23dp</item>
+        <item name="android:maxHeight">25dp</item>
     </style>
 
 

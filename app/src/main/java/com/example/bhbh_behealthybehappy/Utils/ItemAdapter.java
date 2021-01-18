@@ -186,20 +186,20 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            listItem_LBL_name = itemView.findViewById(R.id.listUserItem_LBL_name);
-            listItem_LBL_foodWeight = itemView.findViewById(R.id.listUserItem_LBL_foodWeight);
-            listItem_LBL_drinkAmount = itemView.findViewById(R.id.listUserItem_LBL_drinkAmount);
-            listItem_LBL_info = itemView.findViewById(R.id.listUserItem_LBL_info);
-            listItem_LBL_activityTime = itemView.findViewById(R.id.listUserItem_LBL_activityTime);
-            listItem_LBL_free = itemView.findViewById(R.id.listUserItem_LBL_free);
-            listItem_BTN_readMore = itemView.findViewById(R.id.listUserItem_BTN_readMore);
-            listItem_BTN_addItem = itemView.findViewById(R.id.listUserItem_BTN_addItem);
-            listItem_RTB_redHearts = itemView.findViewById(R.id.listUserItem_RTB_redHearts);
-            listItem_RTB_blackHearts = itemView.findViewById(R.id.listUserItem_RTB_blackHearts);
-            listItem_RTB_greenStars = itemView.findViewById(R.id.listUserItem_RTB_greenStars);
-            listItem_RLT_background1 = itemView.findViewById(R.id.listUserItem_RLT_background1);
-            listItem_RLT_background2 = itemView.findViewById(R.id.listUserItem_RLT_background2);
-            listItem_RLT_background3 = itemView.findViewById(R.id.listUserItem_RLT_background3);
+            listItem_LBL_name = itemView.findViewById(R.id.listItem_LBL_name);
+            listItem_LBL_foodWeight = itemView.findViewById(R.id.listItem_LBL_foodWeight);
+            listItem_LBL_drinkAmount = itemView.findViewById(R.id.listItem_LBL_drinkAmount);
+            listItem_LBL_info = itemView.findViewById(R.id.listItem_LBL_info);
+            listItem_LBL_activityTime = itemView.findViewById(R.id.listItem_LBL_activityTime);
+            listItem_LBL_free = itemView.findViewById(R.id.listItem_LBL_free);
+            listItem_BTN_readMore = itemView.findViewById(R.id.listItem_BTN_readMore);
+            listItem_BTN_addItem = itemView.findViewById(R.id.listItem_BTN_addItem);
+            listItem_RTB_redHearts = itemView.findViewById(R.id.listItem_RTB_redHearts);
+            listItem_RTB_blackHearts = itemView.findViewById(R.id.listItem_RTB_blackHearts);
+            listItem_RTB_greenStars = itemView.findViewById(R.id.listItem_RTB_greenStars);
+            listItem_RLT_background1 = itemView.findViewById(R.id.listItem_RLT_background1);
+            listItem_RLT_background2 = itemView.findViewById(R.id.listItem_RLT_background2);
+            listItem_RLT_background3 = itemView.findViewById(R.id.listItem_RLT_background3);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

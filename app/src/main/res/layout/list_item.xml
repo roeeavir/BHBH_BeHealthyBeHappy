@@ -17,7 +17,7 @@
         >
 
         <RelativeLayout
-            android:id="@+id/listUserItem_RLT_background1"
+            android:id="@+id/listItem_RLT_background1"
             android:layout_width="0dp"
             android:layout_height="100dp"
             android:layout_weight="1"
@@ -25,7 +25,7 @@
             >
 
             <TextView
-                android:id="@+id/listUserItem_LBL_name"
+                android:id="@+id/listItem_LBL_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -34,7 +34,7 @@
                 android:textSize="18sp" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/listUserItem_BTN_addItem"
+                android:id="@+id/listItem_BTN_addItem"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
@@ -51,7 +51,7 @@
 
 
         <RelativeLayout
-            android:id="@+id/listUserItem_RLT_background2"
+            android:id="@+id/listItem_RLT_background2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -59,7 +59,7 @@
             android:background="@drawable/item_list_background_green">
 
             <TextView
-                android:id="@+id/listUserItem_LBL_foodWeight"
+                android:id="@+id/listItem_LBL_foodWeight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -73,10 +73,10 @@
                 android:visibility="gone" />
 
             <TextView
-                android:id="@+id/listUserItem_LBL_drinkAmount"
+                android:id="@+id/listItem_LBL_drinkAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/listUserItem_LBL_foodWeight"
+                android:layout_below="@id/listItem_LBL_foodWeight"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="4dp"
@@ -88,10 +88,10 @@
                 android:visibility="gone" />
 
             <TextView
-                android:id="@+id/listUserItem_LBL_activityTime"
+                android:id="@+id/listItem_LBL_activityTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/listUserItem_LBL_drinkAmount"
+                android:layout_below="@id/listItem_LBL_drinkAmount"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="4dp"
@@ -103,36 +103,38 @@
                 android:visibility="gone" />
 
             <androidx.appcompat.widget.AppCompatRatingBar
-                android:id="@+id/listUserItem_RTB_redHearts"
-                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:id="@+id/listItem_RTB_redHearts"
+                style="@style/myRedHeartRatingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/listUserItem_LBL_activityTime"
+                android:layout_below="@id/listItem_LBL_activityTime"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="5dp"
                 android:rating="0"
-                android:theme="@style/RatingBarRedHearts"
+                android:scaleY="0.8"
+                android:scaleX="0.8"
                 android:visibility="gone" />
 
             <androidx.appcompat.widget.AppCompatRatingBar
-                android:id="@+id/listUserItem_RTB_blackHearts"
-                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:id="@+id/listItem_RTB_blackHearts"
+                style="@style/myBlackHeartRatingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/listUserItem_RTB_redHearts"
+                android:layout_below="@id/listItem_RTB_redHearts"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="5dp"
                 android:rating="0"
-                android:theme="@style/RatingBarBlackHearts"
+                android:scaleY="0.8"
+                android:scaleX="0.8"
                 android:visibility="gone"
                 />
 
             <androidx.appcompat.widget.AppCompatRatingBar
-                android:id="@+id/listUserItem_RTB_greenStars"
+                android:id="@+id/listItem_RTB_greenStars"
                 style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/listUserItem_RTB_blackHearts"
+                android:layout_below="@id/listItem_RTB_blackHearts"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="5dp"
                 android:rating="0"
@@ -140,10 +142,10 @@
                 android:visibility="gone" />
 
             <TextView
-                android:id="@+id/listUserItem_LBL_free"
+                android:id="@+id/listItem_LBL_free"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/listUserItem_RTB_greenStars"
+                android:layout_below="@id/listItem_RTB_greenStars"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="4dp"
@@ -160,7 +162,7 @@
 
 
         <RelativeLayout
-            android:id="@+id/listUserItem_RLT_background3"
+            android:id="@+id/listItem_RLT_background3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="fill"
@@ -168,7 +170,7 @@
             android:background="@drawable/item_list_background_green">
 
             <TextView
-                android:id="@+id/listUserItem_LBL_info"
+                android:id="@+id/listItem_LBL_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -182,18 +184,22 @@
                 android:textSize="12sp" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/listUserItem_BTN_readMore"
+                android:id="@+id/listItem_BTN_readMore"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_below="@+id/listUserItem_LBL_info"
-                android:layout_alignEnd="@id/listUserItem_LBL_info"
+                android:layout_height="40dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
                 android:minWidth="10dp"
                 android:minHeight="10dp"
                 android:text="@string/read"
-                android:textColor="@color/orange_500"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/black"
+                app:cornerRadius="20dp"
                 android:textSize="12sp" />
 
         </RelativeLayout>

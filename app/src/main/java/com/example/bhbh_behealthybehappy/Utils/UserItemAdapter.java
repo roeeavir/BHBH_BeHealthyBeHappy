@@ -89,7 +89,7 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemAdapter.MyView
             @Override
             public void onClick(View v) {
                 if (mClickListener != null) {
-                    mClickListener.onSetQuantityClicked(v, m);
+                    mClickListener.onSetQuantityClicked(m);
                 }
             }
         });
@@ -161,7 +161,7 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemAdapter.MyView
     public interface MyItemClickListener {
         void onItemClick(View view, int position);
 
-        void onSetQuantityClicked(View view, UserItemEntry item);
+        void onSetQuantityClicked(UserItemEntry item);
 
         void onRemoveItemClicked(View view, UserItemEntry item);
 
@@ -210,14 +210,5 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemAdapter.MyView
         }
     }
 
-    public class TextSpan extends ClickableSpan {
-        @Override
-        public void onClick(View widget) {
-            TextView tv = (TextView) widget;
-            Spanned s = (Spanned) tv.getText();
-            //int start = s.getSpanStart(this);
-            //int end = s.getSpanEnd(this);
-        }
-    }
 
 }

@@ -12,6 +12,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -122,11 +123,16 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
+                int temp_quantity;
                 namesOfItems.clear();
+                water_glasses = 0;
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     String temp = postSnapshot.getKey();
-                    int temp_quantity = postSnapshot.getValue(Integer.class);
                     if (temp != null) {
+                        temp_quantity = postSnapshot.getValue(Integer.class);
+                        if (temp.toLowerCase().equals("water"))
+                            water_glasses = postSnapshot.getValue(Integer.class);
+                        else
                             namesOfItems.put(temp, temp_quantity);
                     }
 
@@ -216,8 +222,8 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
             }
 
             @Override
-            public void onSetQuantityClicked(View view, UserItemEntry item) {
-                openQuantityPopUp(view, item);
+            public void onSetQuantityClicked(UserItemEntry item) {
+                openQuantityPopUp(item);
             }
 
             @Override
@@ -231,14 +237,24 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
         home_LST_list.setAdapter(item_adapter);
     }
 
-    private void openQuantityPopUp(View view, UserItemEntry item) {
+    private void openQuantityPopUp(UserItemEntry item) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Enter Quantity");
+        String s = "";
+        if (item.getItemEntry().getItemType() == Enums.ITEM_THEME.ACTIVITY)
+            s = "'s Duration In Minutes";
+        else if (item.getItemEntry().getItemType() == Enums.ITEM_THEME.DRINK)
+            s = "'s Amount In Milliliters";
+        else
+            s = "'s Weight In Grams";
 
-        final EditText et = new EditText(getActivity());
-        et.setInputType(InputType.TYPE_CLASS_NUMBER);
+        s = "Enter " + item.getItemEntry().getName() + s;
+        builder.setTitle(s);
+
+
+        final EditText et = createEditText(s, item);
 
         builder.setView(et);
+
 
         // set dialog message
         builder.setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -265,7 +281,14 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
         // show it
         alertDialog.show();
 
+    }
 
+    private EditText createEditText(String s, UserItemEntry item) {
+        final EditText et = new EditText(getActivity());
+        et.setInputType(InputType.TYPE_CLASS_NUMBER);
+        et.setText("" + item.getQuantity());
+        et.setGravity(Gravity.CENTER);
+        return et;
     }
 
     private void remove(UserItemEntry item) {
@@ -312,8 +335,6 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
     }
 
     private void loadUserInfo(View root) {
-//        Gson gson = new Gson();
-
         DatabaseReference myRef = FirebaseHelper.getInstance().getDatabaseReference(USERS_REF);
         FirebaseUser user = FirebaseHelper.getInstance().getUser();
 
@@ -456,6 +477,7 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
         wordToSpan.setSpan(new ForegroundColorSpan(Color.BLUE), len4, s1.length() + s2.length() + s3.length() + s4.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         main_LBL_progress.setText(wordToSpan);
+
     }
 
     private void resetScores() {// resets all the scores
