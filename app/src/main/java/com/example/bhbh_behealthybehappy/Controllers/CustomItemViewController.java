@@ -54,23 +54,25 @@ public class CustomItemViewController {
     }
 
     public void updateTheme(Enums.ITEM_THEME th) {
+        String s1, s2;
         theme = th;
 
         if (theme == Enums.ITEM_THEME.ACTIVITY) {
             item_EDT_calories.setVisibility(View.GONE);
             item_EDT_carbs.setVisibility(View.GONE);
             item_EDT_caloriesBurned.setVisibility(View.VISIBLE);
-            item_LBL_subHeader.setText(theme.toString() + " duration " + item_LBL_subHeader.getText() + "\n15 minutes");
-        } else if (theme == Enums.ITEM_THEME.DRINK) {
-            item_LBL_subHeader.setText(theme.toString() + " amount " + item_LBL_subHeader.getText() + "\n100 milliliters");
-        } else
-            item_LBL_subHeader.setText(theme.toString() + " weight " + item_LBL_subHeader.getText() + "\n100 grams");
+            s1 = theme.toString() + " duration " + item_LBL_subHeader.getText() + "\n15 minutes";
+        } else if (theme == Enums.ITEM_THEME.DRINK)
+            s1 = theme.toString() + " amount " + item_LBL_subHeader.getText() + "\n100 milliliters";
+        else
+            s1 = theme.toString() + " weight " + item_LBL_subHeader.getText() + "\n100 grams";
 
-        item_LBL_header.setText(theme.toString() + " " + item_LBL_header.getText());
+        s2 = theme.toString() + " " + item_LBL_header.getText();
+
+        item_LBL_subHeader.setText(s1);
+        item_LBL_header.setText(s2);
         item_EDT_name.setHint(item_EDT_name.getHint() + " " + theme.toString());
         item_EDT_notes.setHint(theme.toString() + " " + item_EDT_notes.getHint());
-
-
     }
 
     private void initViews() {
@@ -95,7 +97,6 @@ public class CustomItemViewController {
             name = item_EDT_name.getEditText().getText().toString().substring(0, 1).toUpperCase()
                     + item_EDT_name.getEditText().getText().toString().substring(1);
             DatabaseReference myRef = FirebaseHelper.getInstance().getDatabaseReference("Items");
-//            myRef.setValue(null);
             score = setScore();
             if (theme == Enums.ITEM_THEME.DRINK)
                 myRef.child(theme.toString()).child(name).setValue(new ItemEntry().setName(name).setItemType(theme)
@@ -118,9 +119,8 @@ public class CustomItemViewController {
                         .updateScore()
                 );
             MyHelper.getInstance().toast("Item has been added to database!");
-        }
-//        else
-//            MyHelper.getInstance().toast("Some Variables seem to have bad inputs");
+        } else
+            MyHelper.getInstance().toast("Some Variables seem to have bad inputs");
 
     }
 
@@ -133,8 +133,6 @@ public class CustomItemViewController {
             return checkActivityInfo();
         else
             return checkFoodOrDrinkInfo();
-
-
     }
 
 
@@ -155,8 +153,7 @@ public class CustomItemViewController {
                     return false;
                 return calories >= 0 && carbs >= 0;
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             MyHelper.getInstance().toast("Calories and carbs (if entered) should all be numbers");
             return false;
         }
@@ -171,7 +168,7 @@ public class CustomItemViewController {
         try {
             caloriesPerHour = Integer.parseInt(item_EDT_caloriesBurned.getEditText().getText().toString());
             return caloriesPerHour > 0;
-        }catch (Exception e){
+        } catch (Exception e) {
             MyHelper.getInstance().toast("Calories per hour should be a number");
             return false;
         }
@@ -186,7 +183,6 @@ public class CustomItemViewController {
                 return Enums.SCORE.BLACK_HEART;
             else
                 return Enums.SCORE.RED_HEART;
-
         } else
             return Enums.SCORE.RED_HEART;
     }

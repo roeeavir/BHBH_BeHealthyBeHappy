@@ -27,7 +27,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -69,7 +68,6 @@ public class SearchViewController {// Search Activity Controller Class
         findViews();
         initViews();
 
-
         generateItems();
 
     }
@@ -105,7 +103,7 @@ public class SearchViewController {// Search Activity Controller Class
             @Override
             public void onAddItemClicked(View view, ItemEntry item) {
                 view.setEnabled(false);
-                addItem(item);
+                FirebaseHelper.getInstance().addItem(item, date);
             }
         });
 
@@ -113,34 +111,8 @@ public class SearchViewController {// Search Activity Controller Class
         search_LST_list.setAdapter(item_adapter);
     }
 
-    private void addItem(ItemEntry item) {// Adds item to user database
-        FirebaseUser user = FirebaseHelper.getInstance().getUser();
-        DatabaseReference myRef = FirebaseHelper.getInstance().getDatabaseReference(USERS_REF);
-
-        myRef.child(user.getUid()).child(DATES_REF).child(date).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.child(item.getName()).exists()) {
-                    MyHelper.getInstance().toast(item.getName() + " is already in your list");
-                } else {
-                    if (item.getItemType() == Enums.ITEM_THEME.ACTIVITY)
-                        myRef.child(user.getUid()).child(DATES_REF).child(date).child(item.getName()).setValue(15);
-                    else
-                        myRef.child(user.getUid()).child(DATES_REF).child(date).child(item.getName()).setValue(100);
-                    MyHelper.getInstance().playAudio(R.raw.item_added);
-                    MyHelper.getInstance().toast(item.getName() + " has been added to your list!");
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
     private void openInfo(ItemEntry item) {// Opens a dialog window containing item notes
-        new AlertDialog.Builder(((SearchActivity) context))
+        new AlertDialog.Builder(context)
                 .setTitle(item.getName())
                 .setMessage(item.toString())
                 .setPositiveButton("OK", null)
@@ -149,7 +121,6 @@ public class SearchViewController {// Search Activity Controller Class
 
     private void generateItems() {
         DatabaseReference myRef = FirebaseHelper.getInstance().getDatabaseReference(ITEMS_REF);
-//        myRef.setValue(null);
         // Read from the database
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -193,7 +164,7 @@ public class SearchViewController {// Search Activity Controller Class
         search_IBT_addWater.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addWaterGlass();
+                FirebaseHelper.getInstance().addWaterGlass(date);
             }
         });
 
@@ -212,31 +183,6 @@ public class SearchViewController {// Search Activity Controller Class
         });
 
 
-    }
-
-    private void addWaterGlass() {
-        FirebaseUser user = FirebaseHelper.getInstance().getUser();
-        DatabaseReference myRef = FirebaseHelper.getInstance().getDatabaseReference(USERS_REF);
-        String water = "Water";
-
-        myRef.child(user.getUid()).child(DATES_REF).child(date).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.child(water).exists()) {
-                    int water_glasses = snapshot.child(water).getValue(Integer.class) + 1;
-                    myRef.child(user.getUid()).child(DATES_REF).child(date).child("Water").setValue(water_glasses);
-                } else
-                    myRef.child(user.getUid()).child(DATES_REF).child(date).child("Water").setValue(1);
-                MyHelper.getInstance().playAudio(R.raw.water_added);
-                MyHelper.getInstance().toast("Water glass has been added to your list!");
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
     }
 
     private void openCustomActivity() {

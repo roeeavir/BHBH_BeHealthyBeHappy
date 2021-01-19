@@ -10,4 +10,6 @@ public class Constants {
     public static final String ITEMS_REF = "Items"; // Constant for food item
     public static final String DATES_REF = "Dates"; // Constant for food item
     public static final String USER_INFO_REF = "User Info"; // Constant for food item
+    public static final String WATER_GLASS = "Water";
+
 }

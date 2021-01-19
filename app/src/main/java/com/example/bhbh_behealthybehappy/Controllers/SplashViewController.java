@@ -35,7 +35,6 @@ public class SplashViewController {
     private MaterialButton splash_BTN_start;
     private TextView splash_LBL_name;
 
-
     private Timer carousalTimer;
 
 

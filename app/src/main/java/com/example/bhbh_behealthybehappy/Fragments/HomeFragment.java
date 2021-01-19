@@ -76,7 +76,7 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
     private HashMap<String, Integer> namesOfItems = new HashMap<>();
     private ArrayList<UserItemEntry> userItems;
 
-    private UserItemAdapter item_adapter;
+    private UserItemAdapter user_item_adapter;
 
     private double red_score = 0;
     private double black_score = 0;
@@ -86,6 +86,7 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
+        Log.d("pttt", "Created HomeFragment");
 
         findViews(root);
         initViews();
@@ -200,9 +201,9 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
 
         Collections.sort(userItems);
 
-        item_adapter = new UserItemAdapter(getActivity(), userItems);
+        user_item_adapter = new UserItemAdapter(getActivity(), userItems);
 
-        item_adapter.setClickListener(new UserItemAdapter.MyItemClickListener() {
+        user_item_adapter.setClickListener(new UserItemAdapter.MyItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 MyHelper.getInstance().toast(userItems.get(position).getItemEntry().getName());
@@ -215,13 +216,14 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
 
             @Override
             public void onRemoveItemClicked(View view, UserItemEntry item) {
-                remove(item);
+                FirebaseHelper.getInstance().removeUserItem(item,
+                        user_item_adapter, main_BTN_changeDate.getText().toString());
             }
 
         });
 
         home_LST_list.setLayoutManager(new LinearLayoutManager(getActivity()));
-        home_LST_list.setAdapter(item_adapter);
+        home_LST_list.setAdapter(user_item_adapter);
     }
 
     private void openQuantityPopUp(UserItemEntry item) {
@@ -237,17 +239,25 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
         s = "Enter " + item.getItemEntry().getName() + s;
         builder.setTitle(s);
 
-
         final EditText et = createEditText(s, item);
 
         builder.setView(et);
-
 
         // set dialog message
         builder.setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 try {
                     int quantity = Integer.parseInt(et.getText().toString());
+
+                    // Capping sports activity quantity of minutes as the number of minutes in a day
+                    if (item.getItemEntry().getItemType() == Enums.ITEM_THEME.ACTIVITY && quantity > 1440) {
+                        quantity = 1440;
+                        MyHelper.getInstance().toast("Activity duration cannot be higher" +
+                                " than a day's worth of minutes");
+                    } else if (quantity > 20000) {// Capping food or drink quantity at 20,000
+                        quantity = 20000;
+                        MyHelper.getInstance().toast("Food or Drink quantity cannot be higher than 20,000");
+                    }
 
                     FirebaseUser user = FirebaseHelper.getInstance().getUser();
                     DatabaseReference myUserRef = FirebaseHelper.getInstance().getDatabaseReference(USERS_REF).
@@ -258,7 +268,7 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
                     MyHelper.getInstance().toast("Quantity should only be numeric");
                 }
 
-                item_adapter.notifyDataSetChanged();
+                user_item_adapter.notifyDataSetChanged();
                 setScore();
             }
         });
@@ -277,23 +287,6 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
         et.setGravity(Gravity.CENTER);
         return et;
     }
-
-    private void remove(UserItemEntry item) {
-        FirebaseUser user = FirebaseHelper.getInstance().getUser();
-        DatabaseReference myRef = FirebaseHelper.getInstance().getDatabaseReference(USERS_REF);
-
-        myRef.child(user.getUid()).child(DATES_REF).child(main_BTN_changeDate.getText().toString())
-                .child(item.getItemEntry().getName()).removeValue();
-
-        item_adapter.removeItem(item);
-
-        MyHelper.getInstance().playAudio(R.raw.item_removed);
-
-        MyHelper.getInstance().toast(item.getItemEntry().getName() + " has been removed from your list");
-        Log.w("pttt", item.getItemEntry().getName() + " has been removed from your list");
-
-    }
-
 
     private void initViews() {
         main_BTN_changeDate.setOnClickListener(new View.OnClickListener() {
@@ -421,15 +414,11 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
         String date = dayOfMonth + "-" + month + "-" + year;
         updateMain_LBL_date(date);
 
-        DatabaseReference myRef = FirebaseHelper.getInstance().getDatabaseReference(USERS_REF);
-        FirebaseUser user = FirebaseHelper.getInstance().getUser();
-
         resetScores();
 
-        item_adapter.clear();
-        item_adapter.notifyDataSetChanged();
+        user_item_adapter.clear();
+        user_item_adapter.notifyDataSetChanged();
         loadUserItems();
-//        myRef.child(user.getUid()).child(USER_INFO_REF).setValue(userInfo);
     }
 
 

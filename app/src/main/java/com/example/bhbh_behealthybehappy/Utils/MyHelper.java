@@ -9,7 +9,7 @@ import android.os.Vibrator;
 import android.util.Log;
 import android.widget.Toast;
 
-
+// Helps with vibration, media player and toast utilities
 public class MyHelper {
 
     // Variables

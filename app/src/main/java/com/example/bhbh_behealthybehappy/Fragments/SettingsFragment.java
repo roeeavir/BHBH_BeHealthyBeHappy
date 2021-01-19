@@ -11,7 +11,6 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.bhbh_behealthybehappy.Models.UserInfo;
 import com.example.bhbh_behealthybehappy.R;
@@ -29,7 +28,6 @@ import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.NotNull;
 
 import static com.example.bhbh_behealthybehappy.Constants_Enums.Constants.USERS_REF;
-//import static com.example.bhbh_behealthybehappy.Constants_Enums.Constants.USER_INFO;
 import static com.example.bhbh_behealthybehappy.Constants_Enums.Constants.USER_INFO_REF;
 
 public class SettingsFragment extends Fragment {
@@ -47,7 +45,7 @@ public class SettingsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
+        Log.d("pttt", "Created SettingsFragment");
         View root = inflater.inflate(R.layout.fragment_settings, container, false);
 
         findViews(root);
@@ -59,10 +57,6 @@ public class SettingsFragment extends Fragment {
 
 
     private void loadText() {
-//        Gson gson = new Gson();
-
-//        userInfo = gson.fromJson(MySP.getInstance().getString(USER_INFO, ""), UserInfo.class);
-
         DatabaseReference myRef = FirebaseHelper.getInstance().getDatabaseReference(USERS_REF);
         FirebaseUser user = FirebaseHelper.getInstance().getUser();
 
@@ -111,11 +105,8 @@ public class SettingsFragment extends Fragment {
     }
 
     private void saveInfo() {
-//        Gson gson = new Gson();
-
         DatabaseReference myRef = FirebaseHelper.getInstance().getDatabaseReference(USERS_REF);
         FirebaseUser user = FirebaseHelper.getInstance().getUser();
-
 
         if (checkInfo()) {
             userInfo = new UserInfo().setUserName(settings_EDT_name.getEditText().getText().toString())
@@ -124,11 +115,8 @@ public class SettingsFragment extends Fragment {
                     .setUserHeight(Integer.parseInt(settings_EDT_height.getEditText().getText().toString()))
                     .setUserDailyScore(Integer.parseInt(settings_EDT_dailyScore.getEditText().getText().toString()));
             myRef.child(user.getUid()).child(USER_INFO_REF).setValue(userInfo);
-//            MySP.getInstance().putString(USER_INFO, gson.toJson(userInfo));
             MyHelper.getInstance().toast("User info has been updated!");
         }
-
-
     }
 
     private boolean checkInfo() {
@@ -152,11 +140,6 @@ public class SettingsFragment extends Fragment {
             return false;
         }
     }
-
-//    private UserInfo generateData(SharedPreferences prefs, Gson gson) {
-//        String jsonFromMemory = prefs.getString(USER_INFO, "");
-//        return gson.fromJson(jsonFromMemory, UserInfo.class);
-//    }
 
     private void findViews(@NotNull View root) {
         settings_EDT_name = root.findViewById(R.id.settings_EDT_name);
