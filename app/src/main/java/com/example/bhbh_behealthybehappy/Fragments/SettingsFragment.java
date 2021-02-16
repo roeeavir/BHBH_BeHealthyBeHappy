@@ -55,7 +55,7 @@ public class SettingsFragment extends Fragment {
         return root;
     }
 
-
+    // Loads user info (if available) from firebase database
     private void loadText() {
         DatabaseReference myRef = FirebaseHelper.getInstance().getDatabaseReference(USERS_REF);
         FirebaseUser user = FirebaseHelper.getInstance().getUser();
@@ -99,26 +99,32 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 AuthUI.getInstance().signOut(getActivity());
+                Log.d("pttt", "Login out and finishing MainActivity");
                 getActivity().finish();
             }
         });
     }
 
+    // Saves user info to firebase database
     private void saveInfo() {
         DatabaseReference myRef = FirebaseHelper.getInstance().getDatabaseReference(USERS_REF);
         FirebaseUser user = FirebaseHelper.getInstance().getUser();
 
-        if (checkInfo()) {
+        if (checkInfo()) {// checks if user info is proper
             userInfo = new UserInfo().setUserName(settings_EDT_name.getEditText().getText().toString())
                     .setUserAge(Integer.parseInt(settings_EDT_age.getEditText().getText().toString()))
                     .setUserWeight(Integer.parseInt(settings_EDT_weight.getEditText().getText().toString()))
                     .setUserHeight(Integer.parseInt(settings_EDT_height.getEditText().getText().toString()))
                     .setUserDailyScore(Integer.parseInt(settings_EDT_dailyScore.getEditText().getText().toString()));
             myRef.child(user.getUid()).child(USER_INFO_REF).setValue(userInfo);
+            Log.d("pttt", "Updated user info");
             MyHelper.getInstance().toast("User info has been updated!");
         }
+        else
+            Log.d("pttt", "Could not save user info");
     }
 
+    // checks if user info is proper
     private boolean checkInfo() {
         if (settings_EDT_age.getEditText().getText().toString().isEmpty() ||
                 settings_EDT_weight.getEditText().getText().toString().isEmpty() ||

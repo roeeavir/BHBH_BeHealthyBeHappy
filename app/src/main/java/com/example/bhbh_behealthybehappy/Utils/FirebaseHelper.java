@@ -45,17 +45,20 @@ public class FirebaseHelper {
         }
     }
 
-    public FirebaseUser getUser(){
+    // Returns the current firebase user
+    public FirebaseUser getUser() {
         FirebaseAuth firebaseAuth;
         firebaseAuth = FirebaseAuth.getInstance();
         return firebaseAuth.getCurrentUser();
     }
 
-    public DatabaseReference getDatabaseReference(String reference){
+    // Returns the wanted firebase datebase reference
+    public DatabaseReference getDatabaseReference(String reference) {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         return firebaseDatabase.getReference(reference);
     }
 
+    // Adds ItemEntry's name to user's database
     public void addItem(ItemEntry item, String date) {// Adds item to user database
         FirebaseUser user = FirebaseHelper.getInstance().getUser();
         DatabaseReference myRef = FirebaseHelper.getInstance().getDatabaseReference(USERS_REF);
@@ -63,15 +66,18 @@ public class FirebaseHelper {
         myRef.child(user.getUid()).child(DATES_REF).child(date).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.child(item.getName()).exists()) {
-                    MyHelper.getInstance().toast(item.getName() + " is already in your list");
+                if (snapshot.child(item.getName()).exists()) { // Checks if the item is present in the database
+                    MyHelper.getInstance().toast(item.getName() + " is already in your list!");
+                    Log.d("pttt", item.getName() + " is already in list");
                 } else {
-                    if (item.getItemType() == Enums.ITEM_THEME.ACTIVITY)
+                    if (item.getItemType() == Enums.ITEM_THEME.ACTIVITY) // Checks if Activity or Food/Drink
                         myRef.child(user.getUid()).child(DATES_REF).child(date).child(item.getName()).setValue(15);
                     else
                         myRef.child(user.getUid()).child(DATES_REF).child(date).child(item.getName()).setValue(100);
-                    MyHelper.getInstance().playAudio(R.raw.item_added);
+
+                    MyHelper.getInstance().playAudio(R.raw.item_added);// Plays sound
                     MyHelper.getInstance().toast(item.getName() + " has been added to your list!");
+                    Log.d("pttt", item.getName() + " has been added to list");
                 }
             }
 
@@ -82,21 +88,22 @@ public class FirebaseHelper {
         });
     }
 
+    // Adds water glass quantity to user's database
     public void addWaterGlass(String date) {
         FirebaseUser user = FirebaseHelper.getInstance().getUser();
         DatabaseReference myRef = FirebaseHelper.getInstance().getDatabaseReference(USERS_REF);
-        String water = "Water";
 
         myRef.child(user.getUid()).child(DATES_REF).child(date).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.child(water).exists()) {
-                    int water_glasses = snapshot.child(water).getValue(Integer.class) + 1;
+                if (snapshot.child(WATER_GLASS).exists()) { // Checks if there already is a water glass present in the database
+                    int water_glasses = snapshot.child(WATER_GLASS).getValue(Integer.class) + 1;
                     myRef.child(user.getUid()).child(DATES_REF).child(date).child(WATER_GLASS).setValue(water_glasses);
                 } else
                     myRef.child(user.getUid()).child(DATES_REF).child(date).child(WATER_GLASS).setValue(1);
-                MyHelper.getInstance().playAudio(R.raw.water_added);
-                MyHelper.getInstance().toast("Water glass has been added to your list!");
+                MyHelper.getInstance().playAudio(R.raw.water_added);// Plays sound
+                MyHelper.getInstance().toast("Water glass has been added");
+                Log.d("pttt", "Water glass has been added");
             }
 
             @Override
@@ -106,16 +113,17 @@ public class FirebaseHelper {
         });
     }
 
+    // Removes UserItemEntry from HashMap and removes item name from the user's database
     public void removeUserItem(UserItemEntry item, UserItemAdapter user_item_adapter, String date) {
         FirebaseUser user = FirebaseHelper.getInstance().getUser();
         DatabaseReference myRef = FirebaseHelper.getInstance().getDatabaseReference(USERS_REF);
 
         myRef.child(user.getUid()).child(DATES_REF).child(date)
-                .child(item.getItemEntry().getName()).removeValue();
+                .child(item.getItemEntry().getName()).removeValue(); // Removes item name
 
-        user_item_adapter.removeItem(item);
+        user_item_adapter.removeItem(item);// Updates removal in recyclerview
 
-        MyHelper.getInstance().playAudio(R.raw.item_removed);
+        MyHelper.getInstance().playAudio(R.raw.item_removed);// Plays sound
 
         MyHelper.getInstance().toast(item.getItemEntry().getName() + " has been removed from your list");
         Log.w("pttt", item.getItemEntry().getName() + " has been removed from your list");

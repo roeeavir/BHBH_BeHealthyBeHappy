@@ -20,7 +20,6 @@ public class ItemEntry implements Comparable<ItemEntry> {
     public ItemEntry() {
     }
 
-
     // Setters and Getters
     public String getName() {
         return name;
@@ -95,13 +94,14 @@ public class ItemEntry implements Comparable<ItemEntry> {
         return score;
     }
 
+    // Sets the base score by the item's theme
     public ItemEntry updateScore() {
         if (itemType == Enums.ITEM_THEME.ACTIVITY)
             this.score = (double) caloriesBurned / 30; // 30 calories burned equals 1 star
         else // Food or drink
             this.score = (double) calories / 100; // 100 calories equals 1 heart
 
-        if (this.score > 5)
+        if (this.score > 5) // Caps 100 grams/milliliters or 15 minutes at a score of 5
             this.score = 5;
 
         if (this.score - (int) this.score < 0.25) // Adjusting points
@@ -113,6 +113,7 @@ public class ItemEntry implements Comparable<ItemEntry> {
         return this;
     }
 
+    // Prints items info by the theme
     @NotNull
     @Override
     public String toString() {
@@ -125,6 +126,7 @@ public class ItemEntry implements Comparable<ItemEntry> {
                     "\nNotes: " + notes;
     }
 
+    // Compares items by name
     @Override
     public int compareTo(ItemEntry o) {
         return this.getName().compareTo(o.getName());

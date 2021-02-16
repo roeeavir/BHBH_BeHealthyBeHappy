@@ -101,6 +101,7 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
 
     }
 
+    // Loads the names of the user's items from firebase database
     private void loadUserItems() {
         FirebaseUser user = FirebaseHelper.getInstance().getUser();
         DatabaseReference myUserRef = FirebaseHelper.getInstance().getDatabaseReference(USERS_REF).
@@ -140,6 +141,7 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
 
     }
 
+    // Loads the items that fit the names of the user's items from firebase database
     private void loadItems() {
         DatabaseReference myUserRef = FirebaseHelper.getInstance().getDatabaseReference(ITEMS_REF);
 
@@ -180,6 +182,7 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
 
     }
 
+    // Sets the scores shown in the activity
     private void setScore() {
         resetScores();
         for (UserItemEntry item : userItems) {
@@ -195,6 +198,7 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
 
     }
 
+    // Setting items in list using user_item_adapter
     private void setItemsInList() {
 
         userItems = new ArrayList<>(userItemEntryHashMap.values());
@@ -207,6 +211,7 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
             @Override
             public void onItemClick(View view, int position) {
                 MyHelper.getInstance().toast(userItems.get(position).getItemEntry().getName());
+                Log.d("pttt", "Clicked on item " + userItems.get(position).getItemEntry().getName());
             }
 
             @Override
@@ -218,6 +223,7 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
             public void onRemoveItemClicked(View view, UserItemEntry item) {
                 FirebaseHelper.getInstance().removeUserItem(item,
                         user_item_adapter, main_BTN_changeDate.getText().toString());
+                Log.d("pttt", "Removed item " + item.getItemEntry().getName() + " from user list");
             }
 
         });
@@ -226,7 +232,9 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
         home_LST_list.setAdapter(user_item_adapter);
     }
 
+    // Opens a popup to set the items quantity
     private void openQuantityPopUp(UserItemEntry item) {
+        Log.d("pttt", "Opening " + item.getItemEntry().getName() + "'s quantity popup");
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         String s = "";
         if (item.getItemEntry().getItemType() == Enums.ITEM_THEME.ACTIVITY)
@@ -280,6 +288,7 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
 
     }
 
+    // Creating edit text
     private EditText createEditText(String s, UserItemEntry item) {
         final EditText et = new EditText(getActivity());
         et.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -316,6 +325,7 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
         });
     }
 
+    // Loading user info (if exists) from firebase database
     private void loadUserInfo(View root) {
         DatabaseReference myRef = FirebaseHelper.getInstance().getDatabaseReference(USERS_REF);
         FirebaseUser user = FirebaseHelper.getInstance().getUser();
@@ -367,9 +377,9 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
         });
     }
 
-
+    // Sets and opens search activity
     private void searchItem(View root, Button btn) {
-        setButtons(false);
+        setButtons(false); // prevents from buttons being clicked more than once
         Intent myIntent = new Intent(root.getContext(), SearchActivity.class);
         if (btn == main_BTN_addDrink)
             myIntent.putExtra(SearchActivity.SEARCH_ITEM, DRINK);
@@ -378,7 +388,7 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
         else
             myIntent.putExtra(SearchActivity.SEARCH_ITEM, FOOD);
         myIntent.putExtra(SearchActivity.USER_DATE, main_BTN_changeDate.getText().toString());
-        root.getContext().startActivity(myIntent);// Opens winner activity
+        root.getContext().startActivity(myIntent);// Opens search activity
         setButtons(true);
     }
 
@@ -401,10 +411,11 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
         home_LST_list = root.findViewById(R.id.home_LST_list);
     }
 
+    // Showing the date picker dialog popup
     private void showDatePickerDialog(View root) {
         datePickerDialog = new DatePickerDialog(root.getContext(),
                 this,
-                Calendar.getInstance().get(Calendar.YEAR), (1 + Calendar.getInstance().get(Calendar.MONTH)),
+                Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH),
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         datePickerDialog.show();
     }
@@ -414,14 +425,14 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
         String date = dayOfMonth + "-" + month + "-" + year;
         updateMain_LBL_date(date);
 
-        resetScores();
+        resetScores(); // Resets previous shown date's data
 
         user_item_adapter.clear();
         user_item_adapter.notifyDataSetChanged();
-        loadUserItems();
+        loadUserItems(); // Loads wanted date relevant data
     }
 
-
+    // Setting the current date
     public void setCurrentDate() {
         String date = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + "-" +
                 (Calendar.getInstance().get(Calendar.MONTH) + 1) + "-"
@@ -433,7 +444,9 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
         main_BTN_changeDate.setText(date);
     }
 
+    // Method for adding colors to Main_LBL_progress
     private void updateMain_LBL_progress() {
+        Log.d("pttt", "Adding colors to Main_LBL_progress");
         String s1, s2, s3, s4;
         int len1, len2, len3, len4;
         s1 = getActivity().getResources().getString(R.string.progress_score) + "\n" +

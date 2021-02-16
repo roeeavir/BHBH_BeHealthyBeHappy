@@ -23,10 +23,13 @@ public class CustomeItemActivity extends BaseActivity {
         isDoubleBackPressToClose = true;
         Log.d("pttt", "Created CustomItemActivity");
 
+        // Initializing customItemViewController
         customItemViewController = new CustomItemViewController(this);
 
+        // Getting items theme from previous intent
         theme = (Enums.ITEM_THEME) getIntent().getSerializableExtra(ADD_CUSTOM_ITEM);
 
+        // Passing items theme to customItemViewController
         customItemViewController.updateTheme(theme);
     }
 }

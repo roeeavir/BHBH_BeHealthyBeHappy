@@ -25,18 +25,20 @@ public class SearchActivity extends BaseActivity {
         isDoubleBackPressToClose = true;
         Log.d("pttt", "Created SearchActivity");
 
+        // Initializing SearchViewController
         searchViewController = new SearchViewController(this);
 
         setTheme();
 
+        // Sending SearchViewController the wanted date as String
         searchViewController.setDate(getIntent().getStringExtra(USER_DATE));
-
 
     }
 
-
+    // Sets the ui by the item theme
     private void setTheme() {
         String item = getIntent().getStringExtra(SEARCH_ITEM);
+        Log.d("pttt", "Item theme is" + item);
         if (item.equals(DRINK)) {
             searchViewController.updateTheme(R.drawable.drink_background, Enums.ITEM_THEME.DRINK);
             searchViewController.setAddWaterButtonToVisible();

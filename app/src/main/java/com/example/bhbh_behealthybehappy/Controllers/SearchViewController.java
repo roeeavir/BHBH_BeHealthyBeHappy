@@ -81,13 +81,13 @@ public class SearchViewController {// Search Activity Controller Class
         search_LST_list = ((SearchActivity) context).findViewById(R.id.search_LST_list);
     }
 
+    // Setting items in list using item_adapter
     private void setItemsInList() {
-
         items = new ArrayList<>(itemsMap.values());
 
-        Collections.sort(items);
+        Collections.sort(items); // Sorting items
 
-        item_adapter = new ItemAdapter(((SearchActivity) context), items);
+        item_adapter = new ItemAdapter(context, items); // Setting adapter
 
         item_adapter.setClickListener(new ItemAdapter.MyItemClickListener() {
             @Override
@@ -104,14 +104,16 @@ public class SearchViewController {// Search Activity Controller Class
             public void onAddItemClicked(View view, ItemEntry item) {
                 view.setEnabled(false);
                 FirebaseHelper.getInstance().addItem(item, date);
+                Log.d("pttt", "Add item button clicked on " + item.getName());
             }
         });
 
-        search_LST_list.setLayoutManager(new LinearLayoutManager(((SearchActivity) context)));
+        search_LST_list.setLayoutManager(new LinearLayoutManager(context));
         search_LST_list.setAdapter(item_adapter);
     }
 
     private void openInfo(ItemEntry item) {// Opens a dialog window containing item notes
+        Log.d("pttt", "Opening " + item.getName() + " info window");
         new AlertDialog.Builder(context)
                 .setTitle(item.getName())
                 .setMessage(item.toString())
@@ -185,16 +187,18 @@ public class SearchViewController {// Search Activity Controller Class
 
     }
 
+    // Sets and opens custom item activity
     private void openCustomActivity() {
-        search_BTN_customItem.setEnabled(false);
+        search_BTN_customItem.setEnabled(false); // Disables button to prevent multiple clicks
         Intent myIntent = new Intent(context, CustomeItemActivity.class);
         myIntent.putExtra(CustomeItemActivity.ADD_CUSTOM_ITEM, theme);
-        context.startActivity(myIntent);// Opens winner activity
+        context.startActivity(myIntent);// Opens custom item activity
         search_BTN_customItem.setEnabled(true);
     }
 
-
+    // Sets the theme of the activity
     public void updateTheme(int id, Enums.ITEM_THEME th) {
+        Log.d("pttt", "SeachView's theme is: " + th.toString());
         theme = th;
         updateSearch_IMG_background(id);
         updateSearch_BTN_customItem();

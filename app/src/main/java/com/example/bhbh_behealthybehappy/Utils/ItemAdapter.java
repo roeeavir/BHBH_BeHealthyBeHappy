@@ -43,10 +43,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Log.d("pttt", "Position = " + position);
+
+        resetViews(holder);// Resets visibility of holders views
+
         ItemEntry m = items.get(position);
         holder.listItem_LBL_name.setText(m.getName());
         holder.listItem_LBL_info.setText(m.toString());
 
+        // Checks the item type and score type, then acts accordingly (setting data and visibility)
         if (m.getItemType() == Enums.ITEM_THEME.ACTIVITY)
             setActivity(holder, m);
         else {
@@ -54,7 +58,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
                 holder.listItem_LBL_free.setVisibility(View.VISIBLE);
             else if (m.getScoreType() == Enums.SCORE.RED_HEART) {
                 holder.listItem_RTB_redHearts.setRating((float) m.getScore());
-//                holder.listItem_RTB_redHearts.setNumStars((int) m.getScore());
                 holder.listItem_RTB_redHearts.setVisibility(View.VISIBLE);
 
             } else {
@@ -87,23 +90,38 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         });
     }
 
+    // Resets visibility of holders views, as to prevent a bug while searching for items
+    private void resetViews(MyViewHolder holder) {
+        holder.listItem_RTB_redHearts.setVisibility(View.GONE);
+        holder.listItem_LBL_free.setVisibility(View.GONE);
+        holder.listItem_RTB_blackHearts.setVisibility(View.GONE);
+        holder.listItem_LBL_foodWeight.setVisibility(View.GONE);
+        holder.listItem_LBL_drinkAmount.setVisibility(View.GONE);
+        holder.listItem_LBL_activityTime.setVisibility(View.GONE);
+        holder.listItem_RTB_greenStars.setVisibility(View.GONE);
+    }
+
+    // Setting food views
     private void setFood(@NonNull MyViewHolder holder, ItemEntry m) {
         holder.listItem_LBL_foodWeight.setText(m.getItemType().toString() + " score by 100 grams");
         holder.listItem_LBL_foodWeight.setVisibility(View.VISIBLE);
         holder.listItem_RLT_background1.setBackgroundResource(R.drawable.item_list_background_red);
         holder.listItem_RLT_background2.setBackgroundResource(R.drawable.item_list_background_red);
         holder.listItem_RLT_background3.setBackgroundResource(R.drawable.item_list_background_red);
-
+        Log.d("pttt", "Food item has been set");
     }
 
+    // Setting Drink views
     private void setDrink(@NonNull MyViewHolder holder, ItemEntry m) {
         holder.listItem_LBL_drinkAmount.setText(m.getItemType().toString() + " score by 100 milliliter");
         holder.listItem_LBL_drinkAmount.setVisibility(View.VISIBLE);
         holder.listItem_RLT_background1.setBackgroundResource(R.drawable.item_list_background_blue);
         holder.listItem_RLT_background2.setBackgroundResource(R.drawable.item_list_background_blue);
         holder.listItem_RLT_background3.setBackgroundResource(R.drawable.item_list_background_blue);
+        Log.d("pttt", "Drink item has been set");
     }
 
+    // Setting Activity views
     private void setActivity(@NonNull MyViewHolder holder, ItemEntry m) {
         holder.listItem_LBL_activityTime.setText(m.getItemType().toString() + " score by 15 minutes");
         holder.listItem_LBL_activityTime.setVisibility(View.VISIBLE);
@@ -112,6 +130,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         holder.listItem_RLT_background1.setBackgroundResource(R.drawable.item_list_background_green);
         holder.listItem_RLT_background2.setBackgroundResource(R.drawable.item_list_background_green);
         holder.listItem_RLT_background3.setBackgroundResource(R.drawable.item_list_background_green);
+        Log.d("pttt", "Activity item has been set");
     }
 
 
@@ -120,10 +139,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         return items.size();
     }
 
-    // convenience method for getting data at click position
-    ItemEntry getItem(int id) {
-        return items.get(id);
-    }
 
     // allows clicks events to be caught
     public void setClickListener(MyItemClickListener itemClickListener) {
@@ -143,14 +158,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
                     if (item.getScore() == 0) {
                         items.add(item);
                     }
-                }
-                try {
-                    if (item.getScore() == Double.parseDouble(text)) { // Shows items by score
-                        items.add(item);
+                } else {
+                    try {
+                        if (item.getScore() == Double.parseDouble(text)) { // Shows items by score
+                            items.add(item);
+                        }
+                    } catch (Exception e) {
+                        Log.d("pttt", "Given a none double value in ItemAdapter.filter()");
                     }
-                } catch (Exception e) {
-
                 }
+
             }
         }
         notifyDataSetChanged();

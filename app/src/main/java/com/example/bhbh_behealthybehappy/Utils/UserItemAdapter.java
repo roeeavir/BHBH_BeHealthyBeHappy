@@ -49,6 +49,8 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemAdapter.MyView
         String total_score = "";
         String total_quantity = "";
         holder.listUserItem_LBL_name.setText(m.getItemEntry().getName());
+
+        // Checks the item type and score type, then acts accordingly (setting data and visibility)
         if (m.getItemEntry().getItemType() == Enums.ITEM_THEME.ACTIVITY) {
             setActivity(holder, m);
             total_score = m.getScore_by_quantity() + " green star(s)";
@@ -76,6 +78,7 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemAdapter.MyView
             }
         }
 
+        // Checks if score is higher than the maximum that can be shown
         if (m.getScore_by_quantity() >= 5) {
             total_score = "Total score:\n" + total_score;
             holder.listUserItem_LBL_score.setText(total_score);
@@ -103,22 +106,23 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemAdapter.MyView
             }
         });
 
-
     }
 
-
+    // Setting food views
     private void setFood(@NonNull MyViewHolder holder) {
         holder.listUserItemRLT_background1.setBackgroundResource(R.drawable.item_list_background_red);
         holder.listUserItem_RLT_background2.setBackgroundResource(R.drawable.item_list_background_red);
         holder.listUserItem_RLT_background3.setBackgroundResource(R.drawable.item_list_background_red);
     }
 
+    // Setting Drink views
     private void setDrink(@NonNull MyViewHolder holder) {
         holder.listUserItemRLT_background1.setBackgroundResource(R.drawable.item_list_background_blue);
         holder.listUserItem_RLT_background2.setBackgroundResource(R.drawable.item_list_background_blue);
         holder.listUserItem_RLT_background3.setBackgroundResource(R.drawable.item_list_background_blue);
     }
 
+    // Setting Activity views
     private void setActivity(@NonNull MyViewHolder holder, UserItemEntry m) {
         holder.listUserItem_RTB_greenStars.setRating((float) m.getScore_by_quantity());
         holder.listUserItem_RTB_greenStars.setVisibility(View.VISIBLE);
@@ -133,10 +137,6 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemAdapter.MyView
         return items.size();
     }
 
-    // convenience method for getting data at click position
-    UserItemEntry getItem(int id) {
-        return items.get(id);
-    }
 
     // allows clicks events to be caught
     public void setClickListener(MyItemClickListener itemClickListener) {

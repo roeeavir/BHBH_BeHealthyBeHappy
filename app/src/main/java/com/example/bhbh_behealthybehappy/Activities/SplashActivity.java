@@ -35,12 +35,15 @@ public class SplashActivity extends BaseActivity {
         isDoubleBackPressToClose = true;
         Log.d("pttt", "Created SplashActivity");
 
+        // Initializing SplashViewController
         splashViewController = new SplashViewController(this);
 
+        // Loading view's background through Glide
         splashViewController.updateSplash_IMG_background(R.drawable.img_healthy_girl_s);
 
     }
 
+    // State functions for the timer's function
     @Override
     protected void onStop() {
         super.onStop();

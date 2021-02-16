@@ -66,6 +66,7 @@ public class SplashViewController {
         });
     }
 
+    // Method for starting splash logo animation
     public void startLogoAnimation() {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((SplashActivity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -81,7 +82,7 @@ public class SplashViewController {
                 .setListener(new Animator.AnimatorListener() {
                     @Override
                     public void onAnimationStart(Animator animator) {
-
+                        Log.d("pttt", "Animation started");
                     }
 
                     @Override
@@ -90,10 +91,12 @@ public class SplashViewController {
                         splash_IMG_background.setAlpha((float) 0.7);
                         startCounting();
                         MyHelper.getInstance().playAudio(R.raw.fall_animation_sound);
+                        Log.d("pttt", "Animation ended");
                     }
 
                     @Override
                     public void onAnimationCancel(Animator animator) {
+                        Log.d("pttt", "Animation canceled");
                     }
 
                     @Override

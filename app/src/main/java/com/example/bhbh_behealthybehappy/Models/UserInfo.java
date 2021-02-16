@@ -2,16 +2,18 @@ package com.example.bhbh_behealthybehappy.Models;
 
 public class UserInfo {
 
-
+    // Variables
     private String userName = "";
     private int userAge = 0;
     private int userWeight = 0;
     private int userHeight = 0;
     private int userDailyScore = 0;
 
+    // Empty Constructor
     public UserInfo() {
     }
 
+    // Setters and Getters
     public String getUserName() {
         return userName;
     }

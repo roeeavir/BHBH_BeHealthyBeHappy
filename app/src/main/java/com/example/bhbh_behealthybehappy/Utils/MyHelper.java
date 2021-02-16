@@ -53,14 +53,14 @@ public class MyHelper {
     public void playAudio(int rawId) {
         stopAudio();
         Log.d("pttt", "Starting audio");
-        mp = MediaPlayer.create(this.appContext,rawId);
+        mp = MediaPlayer.create(this.appContext, rawId);
 
         mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 mp.reset();
                 mp.release();
-                mp=null;
+                mp = null;
             }
         });
         mp.start();
@@ -75,9 +75,8 @@ public class MyHelper {
                 mp.prepare();
                 mp.stop();
                 mp.release();
-                mp=null;
-            }
-            catch (Exception e) {
+                mp = null;
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

@@ -44,7 +44,7 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
-        ScreenUtils.hideSystemUI(this);
+        ScreenUtils.hideSystemUI(this); // Full screen on back to MainActivity
     }
 
 

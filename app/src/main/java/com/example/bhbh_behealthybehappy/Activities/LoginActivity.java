@@ -45,11 +45,11 @@ public class LoginActivity extends BaseActivity {
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
                         .setAvailableProviders(Arrays.asList(
-                                new AuthUI.IdpConfig.EmailBuilder().build(),
-                                new AuthUI.IdpConfig.PhoneBuilder().build()
+                                new AuthUI.IdpConfig.EmailBuilder().build(), // Login by Email
+                                new AuthUI.IdpConfig.PhoneBuilder().build() // Login by Phone Number
                         ))
                         .setLogo(R.drawable.ic_healthy_logo)
-                        .setTosAndPrivacyPolicyUrls(
+                        .setTosAndPrivacyPolicyUrls( // Mock terms of service
                                 "https://example.com/terms.html",
                                 "https://example.com/privacy.html")
                         .setTheme(R.style.GreenTheme)
@@ -61,10 +61,7 @@ public class LoginActivity extends BaseActivity {
         Log.d("pttt", "openApp");
         Intent myIntent = new Intent(this, MainActivity.class);
         startActivity(myIntent);
-//        if (firebaseAuth.getCurrentUser().isAnonymous())
-//            AuthUI.getInstance().signOut(this);
         finish();
-
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

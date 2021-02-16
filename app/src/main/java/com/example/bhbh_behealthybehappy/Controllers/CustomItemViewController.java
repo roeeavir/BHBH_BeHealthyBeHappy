@@ -1,6 +1,7 @@
 package com.example.bhbh_behealthybehappy.Controllers;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -54,9 +55,11 @@ public class CustomItemViewController {
     }
 
     public void updateTheme(Enums.ITEM_THEME th) {
+        Log.d("pttt", "Setting activity by theme (" + th.toString() + ")");
         String s1, s2;
         theme = th;
 
+        // Changing views visibility and wording depending on the theme
         if (theme == Enums.ITEM_THEME.ACTIVITY) {
             item_EDT_calories.setVisibility(View.GONE);
             item_EDT_carbs.setVisibility(View.GONE);
@@ -86,14 +89,16 @@ public class CustomItemViewController {
         item_IMB_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("pttt", "Finishing CustomItemActivity");
                 ((CustomeItemActivity) context).finish();// Quits activity
             }
         });
     }
 
+    // Method for saving item
     private void saveInfo() {
-        if (checkInfo()) {
-            String name;
+        if (checkInfo()) { // checks if info is proper
+            String name; // Sets name from text
             name = item_EDT_name.getEditText().getText().toString().substring(0, 1).toUpperCase()
                     + item_EDT_name.getEditText().getText().toString().substring(1);
             DatabaseReference myRef = FirebaseHelper.getInstance().getDatabaseReference("Items");
@@ -119,12 +124,16 @@ public class CustomItemViewController {
                         .updateScore()
                 );
             MyHelper.getInstance().toast("Item has been added to database!");
-        } else
+            Log.d("pttt", "Item " + name + " has been saved!");
+        } else{
             MyHelper.getInstance().toast("Some Variables seem to have bad inputs");
+            Log.d("pttt", "Could not save item");
+        }
+
 
     }
 
-
+    // checks if info is proper
     private boolean checkInfo() {
         if (item_EDT_name.getEditText().getText().toString().isEmpty()) {
             MyHelper.getInstance().toast("Item name is missing");
@@ -135,7 +144,7 @@ public class CustomItemViewController {
             return checkFoodOrDrinkInfo();
     }
 
-
+    // checks if info relating food or drink is proper
     private boolean checkFoodOrDrinkInfo() {
         int calories, carbs;
         if (item_EDT_calories.getEditText().getText().toString().equals("")) {
@@ -159,6 +168,7 @@ public class CustomItemViewController {
         }
     }
 
+    // checks if info relating activities is proper
     private boolean checkActivityInfo() {
         int caloriesPerHour;
         if (item_EDT_caloriesBurned.getEditText().getText().toString().equals("")) {
@@ -174,11 +184,13 @@ public class CustomItemViewController {
         }
     }
 
+    // Sets score type by using info
     private Enums.SCORE setScore() {
         if (theme == Enums.ITEM_THEME.ACTIVITY)
             return Enums.SCORE.GREEN_STAR;
         else if (!item_EDT_carbs.getEditText().getText().toString().equals("")) {
             int carbs = Integer.parseInt(item_EDT_carbs.getEditText().getText().toString());
+            // if more than 10% of the item is made of carbs - the item will be branded with a black star score
             if (((double) carbs / 100) > 0.1)
                 return Enums.SCORE.BLACK_HEART;
             else
