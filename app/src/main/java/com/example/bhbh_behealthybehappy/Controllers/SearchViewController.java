@@ -190,6 +190,7 @@ public class SearchViewController {// Search Activity Controller Class
     // Sets and opens custom item activity
     private void openCustomActivity() {
         search_BTN_customItem.setEnabled(false); // Disables button to prevent multiple clicks
+        search_SRC_searchView.clearFocus();
         Intent myIntent = new Intent(context, CustomeItemActivity.class);
         myIntent.putExtra(CustomeItemActivity.ADD_CUSTOM_ITEM, theme);
         context.startActivity(myIntent);// Opens custom item activity

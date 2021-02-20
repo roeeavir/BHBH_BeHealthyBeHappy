@@ -31,13 +31,15 @@
                 android:gravity="center"
                 android:layout_margin="5dp"
                 android:textColor="@color/black"
+                android:maxLines="2"
+                android:ellipsize="end"
                 android:textSize="18sp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/listUserItem_BTN_removeItem"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_alignParentBottom="true"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
