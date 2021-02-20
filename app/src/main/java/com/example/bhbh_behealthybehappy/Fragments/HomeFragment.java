@@ -366,10 +366,12 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
                     main_LBL_weight.setText(getActivity().getResources().getString(R.string.weight_none));
                     main_LBL_bmi.setText(getActivity().getResources().getString(R.string.weight_none));
                     main_LBL_progress.setText(getActivity().getResources().getString(R.string.score_none));
+                    setButtons(false);
                     Log.d("pttt", "User has no name yet");
                 } else {
                     try {
                         if (getActivity() != null) {
+                            setButtons(true);
                             double bmi = (double) userInfo.getUserWeight() / Math.pow((double) userInfo.getUserHeight() / 100, 2);
                             s = getActivity().getResources().getString(R.string.hello) + " " +
                                     userInfo.getUserName();
@@ -416,6 +418,16 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
         main_BTN_addDrink.setEnabled(b);
         main_BTN_addActivity.setEnabled(b);
         main_BTN_addFood.setEnabled(b);
+        if (!b){
+            main_BTN_addDrink.setAlpha((float) 0.2);
+            main_BTN_addActivity.setAlpha((float) 0.2);
+            main_BTN_addFood.setAlpha((float) 0.2);
+        }else{
+            main_BTN_addDrink.setAlpha((float) 1);
+            main_BTN_addActivity.setAlpha((float) 1);
+            main_BTN_addFood.setAlpha((float) 1);
+        }
+
     }
 
     private void findViews(View root) {// Initializes views
