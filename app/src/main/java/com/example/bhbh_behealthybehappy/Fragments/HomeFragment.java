@@ -323,6 +323,25 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
                 searchItem(v, main_BTN_addFood);
             }
         });
+        main_LBL_progress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openInfo();
+            }
+        });
+
+    }
+
+    private void openInfo() { // Opens a dialog window containing scores info
+            Log.d("pttt", "Opening info window");
+            String s = getActivity().getResources().getString(R.string.info_red_hearts) + "\n\n" +
+                    getActivity().getResources().getString(R.string.info_black_hearts) + "\n\n" +
+                    getActivity().getResources().getString(R.string.info_green_stars);
+            new androidx.appcompat.app.AlertDialog.Builder(getActivity())
+                    .setTitle("Scores Info")
+                    .setMessage(s)
+                    .setPositiveButton("OK", null)
+                    .show();
     }
 
     // Loading user info (if exists) from firebase database

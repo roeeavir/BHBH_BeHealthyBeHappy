@@ -2,6 +2,10 @@
     <string name="app_name">BHBH - Be Healthy Be Happy</string>
     <string name="tap_to_begin">Tap To Begin</string>
 
+    <string name="info_red_hearts">Red heart(s) represents food and drink score (daily target score is set in settings tab).</string>
+    <string name="info_black_hearts">Black heart(s) represents high carbs food and drink score.</string>
+    <string name="info_green_stars">Green star(s) represents activities score.</string>
+
     <string name="name">Name</string>
     <string name="age">Age</string>
     <string name="weight">Weight (kg)</string>
