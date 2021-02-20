@@ -441,7 +441,7 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        String date = dayOfMonth + "-" + month + "-" + year;
+        String date = dayOfMonth + "-" + (month + 1) + "-" + year;
         updateMain_LBL_date(date);
 
         resetScores(); // Resets previous shown date's data
