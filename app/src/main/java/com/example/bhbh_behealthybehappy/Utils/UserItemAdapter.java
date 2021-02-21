@@ -45,6 +45,9 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemAdapter.MyView
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Log.d("pttt", "Position = " + position);
+
+        resetViews(holder);// Resets visibility of holders views
+
         UserItemEntry m = items.get(position);
         String total_score = "";
         String total_quantity = "";
@@ -148,6 +151,14 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemAdapter.MyView
         int size = items.size();
         items.clear();
         notifyItemRangeRemoved(0, size);
+    }
+
+    // Resets visibility of holders views, as to prevent a bug while searching for items
+    private void resetViews(UserItemAdapter.MyViewHolder holder) {
+        holder.listUserItem_RTB_redHearts.setVisibility(View.GONE);
+        holder.listUserItem_LBL_free.setVisibility(View.GONE);
+        holder.listUserItem_RTB_blackHearts.setVisibility(View.GONE);
+        holder.listUserItem_RTB_greenStars.setVisibility(View.GONE);
     }
 
     public void removeItem(UserItemEntry itemEntry) {
